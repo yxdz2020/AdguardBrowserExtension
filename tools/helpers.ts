@@ -77,6 +77,7 @@ const getClickToLoadSha = () => {
 const getEnvPolicy = (env: BuildTargetEnv, browser: Browser) => {
     switch (browser) {
         case Browser.ChromeMv3:
+        case Browser.Opera:
             return { content_security_policy: { extension_pages: "script-src 'self'; object-src 'self'" } };
         default:
             return env === BuildTargetEnv.Dev

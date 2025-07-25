@@ -76,7 +76,7 @@ import {
     SUBSCRIBE_PATH,
     THANKYOU_PATH,
 } from './common-constants';
-import { getEnvConf } from './helpers';
+import { getEnvConf, isBrowserMv3 } from './helpers';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const __filename = fileURLToPath(import.meta.url);
@@ -145,7 +145,8 @@ export const ENTRY_POINTS_CHUNKS = {
 
 export const genCommonConfig = (browserConfig: BrowserConfig, isWatchMode = false): Configuration => {
     const isDev = BUILD_ENV === BuildTargetEnv.Dev;
-    const manifestVersion = browserConfig.browser === Browser.ChromeMv3 ? 3 : 2;
+    const isMv3 = isBrowserMv3(browserConfig.browser);
+    const manifestVersion = isMv3 ? 3 : 2;
 
     const configuration: Configuration = {
         mode: config.mode,
@@ -473,7 +474,7 @@ export const genCommonConfig = (browserConfig: BrowserConfig, isWatchMode = fals
                 //  (e.g., make it to be __IS_RELEASE__ instead of IS_RELEASE)
                 IS_RELEASE: BUILD_ENV === BuildTargetEnv.Release,
                 IS_BETA: BUILD_ENV === BuildTargetEnv.Beta,
-                __IS_MV3__: browserConfig.browser === Browser.ChromeMv3,
+                __IS_MV3__: isMv3,
             }),
         ],
     };

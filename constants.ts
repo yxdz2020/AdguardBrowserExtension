@@ -82,6 +82,15 @@ export const MIN_SUPPORTED_VERSION = {
     CHROMIUM_MV3: 121,
     FIREFOX: 78,
     FIREFOX_MOBILE: 113,
-    OPERA: 67,
+    /**
+     * Keep it in sync with the Chromium MV3 version.
+     * Opera is based on Chromium, but lags behind it a bit.
+     * For example, Opera 107 is based on Chromium 121.
+     *
+     * @see {@link https://en.wikipedia.org/wiki/History_of_the_Opera_web_browser} - To find corresponding Chromium version.
+     * @see {@link https://blogs.opera.com/desktop} - To find the latest Opera version.
+     * @see {@link https://blogs.opera.com/desktop/changelog-for-107} - Change log for Opera 107 (or insert any other version).
+     */
+    OPERA: 107,
     EDGE_CHROMIUM: 80,
 };

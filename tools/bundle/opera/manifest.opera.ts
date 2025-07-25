@@ -24,7 +24,8 @@ import {
 import { OPTIONS_PAGE } from '../../../Extension/src/common/constants';
 
 export const operaManifest = {
-    'browser_action': {
+    'manifest_version': 3,
+    'action': {
         'default_icon': {
             '19': 'assets/icons/on-19.png',
             '38': 'assets/icons/on-38.png',
@@ -33,24 +34,35 @@ export const operaManifest = {
         'default_popup': `${POPUP_OUTPUT}.html`,
     },
     'web_accessible_resources': [
-        '/web-accessible-resources/*',
+        {
+            'resources': ['web-accessible-resources/*'],
+            'matches': [
+                'http://*/*',
+                'https://*/*',
+            ],
+            'use_dynamic_url': true,
+        },
     ],
     'background': {
-        'page': `${BACKGROUND_OUTPUT}.html`,
-        'persistent': true,
+        'service_worker': `${BACKGROUND_OUTPUT}.js`,
     },
     'options_page': OPTIONS_PAGE,
     'devtools_page': `${DEVTOOLS_OUTPUT}.html`,
     'permissions': [
         'tabs',
-        '<all_urls>',
         'webRequest',
-        'webRequestBlocking',
         'webNavigation',
         'storage',
         'unlimitedStorage',
         'contextMenus',
         'cookies',
+        'declarativeNetRequest',
+        'declarativeNetRequestFeedback',
+        'scripting',
+        'userScripts',
+    ],
+    'host_permissions': [
+        '<all_urls>',
     ],
     'optional_permissions': [
         'privacy',

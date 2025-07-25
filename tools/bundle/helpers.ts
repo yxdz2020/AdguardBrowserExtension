@@ -17,7 +17,7 @@
  */
 
 import {
-    type Browser,
+    Browser,
     type BuildTargetEnv,
     ENV_CONF,
     type EnvConfig,
@@ -39,4 +39,9 @@ export const getEnvConf = (env: BuildTargetEnv): EnvConfig => {
         throw new Error(`No env config for: "${env}"`);
     }
     return envConfig;
+};
+
+export const isBrowserMv3 = (browser: Browser): boolean => {
+    return browser === Browser.ChromeMv3
+        || browser === Browser.Opera;
 };

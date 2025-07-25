@@ -38,7 +38,7 @@ import {
 } from './common-constants';
 import { genCommonConfig } from './webpack.common';
 
-export const genMv3CommonConfig = (browserConfig: BrowserConfig, isWatchMode: boolean): Configuration => {
+export const genMv3CommonConfig = (browserConfig: BrowserConfig, isWatchMode = false): Configuration => {
     const commonConfig = genCommonConfig(browserConfig, isWatchMode);
 
     return merge(commonConfig, {
