@@ -67,5 +67,5 @@ export const operaMv3Manifest = {
     'optional_permissions': [
         'privacy',
     ],
-    'minimum_opera_version': String(MIN_SUPPORTED_VERSION.OPERA),
+    'minimum_opera_version': String(MIN_SUPPORTED_VERSION.OPERA_MV3),
 };
