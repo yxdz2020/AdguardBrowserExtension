@@ -181,6 +181,7 @@ build/dev/edge
 build/dev/firefox-amo
 build/dev/firefox-standalone
 build/dev/opera
+build/dev/opera-mv3
 ```
 
 To make a dev build for a specific browser, run:
@@ -189,7 +190,7 @@ To make a dev build for a specific browser, run:
 pnpm dev <browser>
 ```
 
-Where `<browser>` is one of the following: `chrome`, `chrome-mv3`, `edge`, `opera`, `firefox-amo`,
+Where `<browser>` is one of the following: `chrome`, `chrome-mv3`, `edge`, `opera`, `opera-mv3`, `firefox-amo`,
 `firefox-standalone`, like this:
 
 ```shell
@@ -389,6 +390,8 @@ Additionally, you can edit filters and rebuild DNR rulesets without rebuilding t
 
 ##### <a name="dev-debug-mv3-how-to-build"></a>  How to build the MV3 extension
 
+<!-- FIXME: Add about Opera MV3 -->
+
 1. Ensure that you have installed all dependencies as described in the [Requirements](#dev-requirements) section.
 
     ```shell
@@ -422,6 +425,8 @@ Additionally, you can edit filters and rebuild DNR rulesets without rebuilding t
     ![Select](https://cdn.adtidy.org/content/Kb/ad_blocker/browser_extension/select.png)
 
 ##### How to debug rules
+
+<!-- FIXME: Add about Opera MV3 -->
 
 You can debug and update DNR rulesets without rebuilding the entire extension. There are two main workflows:
 
@@ -473,6 +478,8 @@ You can debug and update DNR rulesets without rebuilding the entire extension. T
 If you see an exclamation mark in the filtering log, it means the assumed rule (calculated by the engine) and the applied rule (converted to DNR) are different. Otherwise, only the applied rule (in DNR and text ways) will be shown.
 
 ##### <a name="dev-technical-info-about-debug-commands"></a> Technical information about commands
+
+<!-- FIXME: Add about Opera MV3 -->
 
 - **Watch for changes and auto-convert:**
     ```shell
