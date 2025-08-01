@@ -43,5 +43,5 @@ export const getEnvConf = (env: BuildTargetEnv): EnvConfig => {
 
 export const isBrowserMv3 = (browser: Browser): boolean => {
     return browser === Browser.ChromeMv3
-        || browser === Browser.Opera;
+        || browser === Browser.OperaMv3;
 };

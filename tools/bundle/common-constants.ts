@@ -86,6 +86,12 @@ export const BROWSERS_CONF: Record<Browser, BrowserConfig> = {
         buildDir: Browser.Opera,
         zipName: Browser.Opera,
     },
+    [Browser.OperaMv3]: {
+        browser: Browser.OperaMv3,
+        devtools: true,
+        buildDir: Browser.OperaMv3,
+        zipName: Browser.OperaMv3,
+    },
     [Browser.Edge]: {
         browser: Browser.Edge,
         devtools: true,

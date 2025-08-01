@@ -66,6 +66,11 @@ const bundleOpera = (options: CommanderOptions) => {
     return bundleRunner(webpackConfig, options);
 };
 
+const bundleOperaMv3 = (options: CommanderOptions) => {
+    const webpackConfig = getWebpackConfig(Browser.OperaMv3, options.watch);
+    return bundleRunner(webpackConfig, options);
+};
+
 const bundleChromeCrx = async () => {
     const key = 'Building CRX for Chrome';
     console.log(`${key}...`);
@@ -82,6 +87,7 @@ const devPlanTasks = [
     bundleFirefoxStandalone,
     bundleEdge,
     bundleOpera,
+    bundleOperaMv3,
     buildInfo,
 ];
 
@@ -93,6 +99,7 @@ const betaPlanTasks = [
     bundleFirefoxStandalone,
     bundleEdge,
     bundleOpera,
+    bundleOperaMv3,
     buildInfo,
 ];
 
@@ -109,6 +116,7 @@ const releasePlanTasks = [
     bundleFirefoxAmo,
     bundleEdge,
     bundleOpera,
+    bundleOperaMv3,
     buildInfo,
 ];
 
@@ -231,6 +239,15 @@ const opera = async (options: CommanderOptions) => {
     }
 };
 
+const operaMv3 = async (options: CommanderOptions) => {
+    try {
+        await runSingleTask(bundleOperaMv3, options);
+    } catch (e) {
+        console.error(e);
+        process.exit(1);
+    }
+};
+
 const firefoxAmo = async (options: CommanderOptions) => {
     try {
         await runSingleTask(bundleFirefoxAmo, options);
@@ -290,6 +307,13 @@ program
     .description('Builds extension for opera browser')
     .action(() => {
         opera(program.opts());
+    });
+
+program
+    .command(Browser.OperaMv3)
+    .description('Builds extension for opera-mv3 browser')
+    .action(() => {
+        operaMv3(program.opts());
     });
 
 program

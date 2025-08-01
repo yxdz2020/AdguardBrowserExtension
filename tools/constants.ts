@@ -86,6 +86,7 @@ export enum Browser {
     FirefoxAmo = 'firefox-amo',
     FirefoxStandalone = 'firefox-standalone',
     Opera = 'opera',
+    OperaMv3 = 'opera-mv3',
     Edge = 'edge',
 }
 

@@ -26,6 +26,7 @@ import { genChromeConfig } from './chrome/webpack.chrome';
 import { genFirefoxConfig } from './firefox/webpack.firefox';
 import { genEdgeConfig } from './edge/webpack.edge';
 import { genOperaConfig } from './opera/webpack.opera';
+import { genOperaMv3Config } from './opera-mv3/webpack.opera-mv3';
 import { genChromeMv3Config } from './chrome-mv3/webpack.chrome-mv3';
 import { getBrowserConf } from './helpers';
 
@@ -52,6 +53,10 @@ export const getWebpackConfig = (browser: Browser, isWatchMode = false) => {
         }
         case Browser.Opera: {
             webpackConfig = genOperaConfig(browserConf);
+            break;
+        }
+        case Browser.OperaMv3: {
+            webpackConfig = genOperaMv3Config(browserConf);
             break;
         }
         case Browser.Edge: {

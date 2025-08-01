@@ -681,6 +681,7 @@ Finally, the new version of the extension will be published to the Chrome Web St
 | Chromium-based browsers MV3 | ✅ 121  |
 | Firefox                     | ✅ 78   |
 | Firefox Mobile              | ✅ 113  |
-| Opera                       | ✅ 107  |
+| Opera                       | ✅ 67   |
+| Opera MV3                   | ✅ 107  |
 | Edge Chromium               | ✅ 80   |
 | Edge Legacy                 | ❌      |
