@@ -36,6 +36,7 @@ const resourcesMv3 = async (skipLocalResources = false) => {
 
     if (!skipLocalResources) {
         console.log('Updating local resources for MV3...');
+        // FIXME: Add support for Opera MV3
         await updateLocalResourcesForChromiumMv3();
         console.log('Local resources for MV3 updated');
     } else {

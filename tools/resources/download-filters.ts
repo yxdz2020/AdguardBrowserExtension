@@ -211,6 +211,7 @@ export const downloadAndPrepareMv3Filters = async () => {
     // Note: it is just copying the files from the @adguard/dnr-rulesets package
     // to the filters directory. The files are already downloaded.
     return loader.load(FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3));
+    // FIXME: Add support for Opera MV3
 };
 
 /**
