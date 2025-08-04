@@ -69,8 +69,7 @@ export const genOperaMv3Config = (browserConfig: BrowserConfig) => {
             .readdirSync(
                 FILTERS_DEST.replace(
                     '%browser',
-                    // FIXME: Update to Opera MV3 filters path
-                    path.join(AssetsFiltersBrowser.ChromiumMv3, '/declarative'),
+                    path.join(AssetsFiltersBrowser.OperaMv3, '/declarative'),
                 ),
             )
             .filter((filter) => filter.match(/ruleset_\d+/));
@@ -125,8 +124,7 @@ export const genOperaMv3Config = (browserConfig: BrowserConfig) => {
                     },
                     {
                         context: 'Extension',
-                        // FIXME: Update to Opera MV3 filters path
-                        from: 'filters/chromium-mv3',
+                        from: 'filters/opera-mv3',
                         to: 'filters',
                     },
                 ],

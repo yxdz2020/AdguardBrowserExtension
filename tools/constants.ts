@@ -103,6 +103,7 @@ export const enum AssetsFiltersBrowser {
     Edge = 'edge',
     Firefox = 'firefox',
     Opera = 'opera',
+    OperaMv3 = 'opera-mv3',
 }
 
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {

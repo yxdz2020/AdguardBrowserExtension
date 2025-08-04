@@ -26,7 +26,7 @@ import crypto from 'crypto';
 import fse from 'fs-extra';
 import axios from 'axios';
 
-import { AssetsLoader } from '@adguard/dnr-rulesets';
+import { AssetsLoader, BrowserFilters } from '@adguard/dnr-rulesets';
 
 import { cliLog } from '../cli-log';
 import {
@@ -210,8 +210,16 @@ export const downloadAndPrepareMv3Filters = async () => {
 
     // Note: it is just copying the files from the @adguard/dnr-rulesets package
     // to the filters directory. The files are already downloaded.
-    return loader.load(FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3));
-    // FIXME: Add support for Opera MV3
+    return Promise.all([
+        loader.load(
+            FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3),
+            { browser: BrowserFilters.ChromiumMV3 },
+        ),
+        loader.load(
+            FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.OperaMv3),
+            { browser: BrowserFilters.Opera },
+        ),
+    ]);
 };
 
 /**

@@ -224,8 +224,13 @@ const wrapScriptCode = (uniqueId: string, code: string): string => {
  *
  * @param rawContent Raw content.
  * @param fileName JS file name.
+ * @param browser Browser name.
  */
-const saveToJsFile = async (rawContent: string, fileName: string): Promise<void> => {
+const saveToJsFile = async (
+    rawContent: string,
+    fileName: string,
+    browser: AssetsFiltersBrowser,
+): Promise<void> => {
     const beautifiedJsContent = (await minify(rawContent, {
         mangle: false,
         compress: false,
@@ -242,13 +247,13 @@ const saveToJsFile = async (rawContent: string, fileName: string): Promise<void>
 
     try {
         await fs.writeFile(
-            `${FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3)}/${fileName}`,
+            `${FILTERS_DEST.replace('%browser', browser)}/${fileName}`,
             beautifiedJsContent,
         );
 
         // Run validation with ES modules support
         const result = await exec(
-            `npx tsx ${FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3)}/${fileName}`,
+            `npx tsx ${FILTERS_DEST.replace('%browser', browser)}/${fileName}`,
         );
         assert.ok(result.stderr === '', 'No errors during execution');
         assert.ok(result.stdout === '', 'No output during execution');
@@ -310,7 +315,10 @@ const saveToJsFile = async (rawContent: string, fileName: string): Promise<void>
  *
  * @param jsRules Set of unique JS rules collected from the pre-built filters.
  */
-export const updateLocalScriptRulesForChromiumMv3 = async (jsRules: Set<string>) => {
+const updateLocalScriptRulesForChromiumMv3 = async (
+    jsRules: Set<string>,
+    browser: AssetsFiltersBrowser,
+) => {
     /**
      * This is a test case rule that is used for integration testing.
      * It should be added explicitly to the list of rules.
@@ -414,15 +422,29 @@ export const updateLocalScriptRulesForChromiumMv3 = async (jsRules: Set<string>)
     const jsFileContent = `${beautifyComment(LOCAL_SCRIPT_RULES_COMMENT_CHROME_MV3)}
 export const localScriptRules = { ${processedRules.join(`,${LF}`)} };${LF}`;
 
-    await saveToJsFile(jsFileContent, LOCAL_SCRIPT_RULES_FILE_NAME);
+    await saveToJsFile(jsFileContent, LOCAL_SCRIPT_RULES_FILE_NAME, browser);
 };
 
 /**
+ * Updates local resources for specified Chromium MV3.
  *
+ * @param browser Browser name.
  */
-export const updateLocalResourcesForChromiumMv3 = async () => {
+export const updateLocalResourcesForChromiumMv3 = async (browser: AssetsFiltersBrowser) => {
+    /**
+     * Supported browsers for MV3 resources update.
+     */
+    const CHROMIUM_MV3_BROWSERS = [
+        AssetsFiltersBrowser.ChromiumMv3,
+        AssetsFiltersBrowser.OperaMv3,
+    ];
+
+    if (!CHROMIUM_MV3_BROWSERS.includes(browser)) {
+        throw new Error(`Specified browser "${browser}" is not supported for MV3 resources update.`);
+    }
+
     const folder = path.join(
-        FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3),
+        FILTERS_DEST.replace('%browser', browser),
         'declarative',
     );
 
@@ -452,7 +474,7 @@ export const updateLocalResourcesForChromiumMv3 = async () => {
         });
     }
 
-    await updateLocalScriptRulesForChromiumMv3(jsRules);
+    await updateLocalScriptRulesForChromiumMv3(jsRules, browser);
 };
 
 export const updateLocalScriptRulesForFirefox = async () => {

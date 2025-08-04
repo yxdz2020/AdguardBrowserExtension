@@ -17,6 +17,7 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AssetsFiltersBrowser } from './constants';
 import { findDangerousRules } from './resources/dangerous-rules';
 import { downloadAndPrepareMv3Filters } from './resources/download-filters';
 import { updateLocalResourcesForChromiumMv3 } from './resources/update-local-script-rules';
@@ -36,8 +37,10 @@ const resourcesMv3 = async (skipLocalResources = false) => {
 
     if (!skipLocalResources) {
         console.log('Updating local resources for MV3...');
-        // FIXME: Add support for Opera MV3
-        await updateLocalResourcesForChromiumMv3();
+        await Promise.all([
+            updateLocalResourcesForChromiumMv3(AssetsFiltersBrowser.ChromiumMv3),
+            updateLocalResourcesForChromiumMv3(AssetsFiltersBrowser.OperaMv3),
+        ]);
         console.log('Local resources for MV3 updated');
     } else {
         console.log('Skipping update of local resources for MV3 (--skip-local-resources flag set)');
