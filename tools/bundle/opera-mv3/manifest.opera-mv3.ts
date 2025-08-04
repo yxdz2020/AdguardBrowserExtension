@@ -15,57 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
-import {
-    BACKGROUND_OUTPUT,
-    DEVTOOLS_OUTPUT,
-    MIN_SUPPORTED_VERSION,
-    POPUP_OUTPUT,
-} from '../../../constants';
-import { OPTIONS_PAGE } from '../../../Extension/src/common/constants';
+import { MIN_SUPPORTED_VERSION } from '../../../constants';
+import { chromeMv3Manifest } from '../chrome-mv3/manifest.chrome-mv3';
 
 export const operaMv3Manifest = {
-    'manifest_version': 3,
-    'action': {
-        'default_icon': {
-            '19': 'assets/icons/on-19.png',
-            '38': 'assets/icons/on-38.png',
-        },
-        'default_title': '__MSG_name__',
-        'default_popup': `${POPUP_OUTPUT}.html`,
-    },
-    'web_accessible_resources': [
-        {
-            'resources': ['web-accessible-resources/*'],
-            'matches': [
-                'http://*/*',
-                'https://*/*',
-            ],
-            'use_dynamic_url': true,
-        },
-    ],
-    'background': {
-        'service_worker': `${BACKGROUND_OUTPUT}.js`,
-    },
-    'options_page': OPTIONS_PAGE,
-    'devtools_page': `${DEVTOOLS_OUTPUT}.html`,
-    'permissions': [
-        'tabs',
-        'webRequest',
-        'webNavigation',
-        'storage',
-        'unlimitedStorage',
-        'contextMenus',
-        'cookies',
-        'declarativeNetRequest',
-        'declarativeNetRequestFeedback',
-        'scripting',
-        'userScripts',
-    ],
-    'host_permissions': [
-        '<all_urls>',
-    ],
-    'optional_permissions': [
-        'privacy',
-    ],
+    ...chromeMv3Manifest,
     'minimum_opera_version': String(MIN_SUPPORTED_VERSION.OPERA_MV3),
 };
