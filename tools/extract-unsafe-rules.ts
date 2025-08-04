@@ -22,11 +22,11 @@ import assert from 'node:assert';
 
 import { program } from 'commander';
 
-import { AssetsFiltersBrowser } from './constants';
+import { AssetsFiltersBrowser, type Mv3AssetsFiltersBrowser } from './constants';
 
 const exec = promisify(execCallback);
 
-const extractUnsafeRules = async (browser: AssetsFiltersBrowser) => {
+const extractUnsafeRules = async (browser: Mv3AssetsFiltersBrowser) => {
     const command = `pnpm exec dnr-rulesets exclude-unsafe-rules ./Extension/filters/${browser}/declarative`;
     const result = await exec(command);
     assert.ok(result.stderr === '', 'No errors during execution');

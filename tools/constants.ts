@@ -19,6 +19,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { BrowserFilters } from '@adguard/dnr-rulesets';
+
 import { REMOTE_METADATA_FILE_NAME, REMOTE_I18N_METADATA_FILE_NAME } from '../constants';
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -112,7 +114,20 @@ export const enum AssetsFiltersBrowser {
 export const MV3_BROWSERS = [
     AssetsFiltersBrowser.ChromiumMv3,
     AssetsFiltersBrowser.OperaMv3,
-];
+] as const;
+
+/**
+ * Infered type for {@link MV3_BROWSERS}.
+ */
+export type Mv3AssetsFiltersBrowser = typeof MV3_BROWSERS[number];
+
+/**
+ * {@link AssetsFiltersBrowser} to {@link BrowserFilters} map.
+ */
+export const DNR_RULESETS_BROWSER_MAP: Record<Mv3AssetsFiltersBrowser, BrowserFilters> = {
+    [AssetsFiltersBrowser.ChromiumMv3]: BrowserFilters.ChromiumMV3,
+    [AssetsFiltersBrowser.OperaMv3]: BrowserFilters.Opera,
+};
 
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {
     [BuildTargetEnv.Dev]: 'adguardadblockerdev@adguard.com',
