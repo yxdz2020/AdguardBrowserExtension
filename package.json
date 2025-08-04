@@ -28,10 +28,7 @@
         "lint-staged": "lint-staged",
         "check-types": "tsc --project tsconfig.with_types_mv2.json --noEmit && tsc --project tsconfig.with_types_mv3.json --noEmit",
         "disclaimer": "pnpm lint | tsx tools/insert-disclaimer.js",
-        "debug-filters:load": "tsx tools/debug-filters.ts load",
-        "debug-filters:convert": "tsx tools/debug-filters.ts convert",
-        "debug-filters:watch": "tsx tools/debug-filters.ts watch",
-        "debug-filters:extract": "tsx tools/debug-filters.ts extract"
+        "debug-filters": "tsx tools/debug-filters.ts"
     },
     "repository": {
         "type": "git",

@@ -436,7 +436,7 @@ You can debug and update DNR rulesets without rebuilding the entire extension. T
 
 1. **Start watching for filter changes:**
     ```shell
-    pnpm debug-filters:watch
+    pnpm debug-filters watch
     ```
     - This command has `-b, --browser <browser>` option to specify the browser target.
       Available browsers: `chrome-mv3`, `opera-mv3`.
@@ -456,7 +456,7 @@ You can debug and update DNR rulesets without rebuilding the entire extension. T
 
 1. **Extract text filters:**
     ```shell
-    pnpm debug-filters:extract
+    pnpm debug-filters extract
     ```
     - This command has `-b, --browser <browser>` option to specify the browser target.
       Available browsers: `chrome-mv3`, `opera-mv3`.
@@ -466,7 +466,7 @@ You can debug and update DNR rulesets without rebuilding the entire extension. T
 
 1. **Convert filters to DNR rulesets:**
     ```shell
-    pnpm debug-filters:convert
+    pnpm debug-filters convert
     ```
     - This command has `-b, --browser <browser>` option to specify the browser target.
       Available browsers: `chrome-mv3`, `opera-mv3`.
@@ -477,7 +477,7 @@ You can debug and update DNR rulesets without rebuilding the entire extension. T
 **Tip:**
 - To download the latest available text filters, run:
     ```shell
-    pnpm debug-filters:load
+    pnpm debug-filters load
     ```
     - This command has `-b, --browser <browser>` option to specify the browser target.
       Available browsers: `chrome-mv3`, `opera-mv3`.
@@ -489,7 +489,7 @@ If you see an exclamation mark in the filtering log, it means the assumed rule (
 
 - **Watch for changes and auto-convert:**
     ```shell
-    pnpm debug-filters:watch
+    pnpm debug-filters watch
     # Under the hood:
     pnpm exec dnr-rulesets watch \
         # Enable extended logging about rulesets, since it is optional - it can be removed
@@ -504,14 +504,14 @@ If you see an exclamation mark in the filtering log, it means the assumed rule (
     ```
 - **Load latest text filters and metadata:**
     ```shell
-    pnpm debug-filters:load
+    pnpm debug-filters load
     # Under the hood:
     pnpm exec dnr-rulesets load \
         # This will load latest text filters with their metadata
         --latest-filters \
         # Browser target, can be 'chromium-mv3', 'opera-mv3'
         # Note: `chrome-mv3` is automatically converted to `chromium-mv3`
-        # when you run `pnpm debug-filters:load chrome-mv3` command.
+        # when you run `pnpm debug-filters load chrome-mv3` command.
         --browser <browser> \
         # Destination path for text filters
         # Where <browser> is the browser target, can be 'chrome-mv3', 'opera-mv3'
@@ -519,7 +519,7 @@ If you see an exclamation mark in the filtering log, it means the assumed rule (
     ```
 - **Manual conversion:**
     ```shell
-    pnpm debug-filters:convert
+    pnpm debug-filters convert
     # Under the hood:
     pnpm exec tsurlfilter convert \
         # Enable extended logging about rulesets
@@ -537,7 +537,7 @@ If you see an exclamation mark in the filtering log, it means the assumed rule (
     ```
 - **Extract text filters from DNR rulesets:**
     ```shell
-    pnpm debug-filters:extract
+    pnpm debug-filters extract
     # Under the hood:
     pnpm exec tsurlfilter extract-filters \
         # Path to the directory with DNR rulesets

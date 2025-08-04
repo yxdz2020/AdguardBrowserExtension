@@ -31,52 +31,74 @@ import {
 
 const exec = promisify(execCallback);
 
-const browserArgument = new Option('-b, --browser <browser>', 'Browser filters to use for debugging')
+const browserOption = new Option('-b, --browser <browser>', 'Browser filters to use for debugging')
     .default(Browser.ChromeMv3)
     .choices(MV3_BROWSERS);
 
 program
     .command('load')
-    .addOption(browserArgument)
+    .addOption(browserOption)
     .description('Load filters for the specified browser')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
         const dnrRulesetsBrowser = MV3_BROWSER_TO_DNR_BROWSER_MAP[browser];
-        const command = `pnpm exec dnr-rulesets load --latest-filters --browser ${dnrRulesetsBrowser} ./build/dev/${browser}/filters`;
+
+        const command = `pnpm exec dnr-rulesets load \\
+                            --latest-filters \\
+                            --browser ${dnrRulesetsBrowser} \\
+                            ./build/dev/${browser}/filters`;
+
         const result = await exec(command);
         assert.ok(result.stderr === '', 'No errors during execution');
     });
 
 program
     .command('convert')
-    .addOption(browserArgument)
+    .addOption(browserOption)
     .description('Convert filters for the specified browser')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
-        const command = `pnpm exec tsurlfilter convert --debug ./build/dev/${browser}/filters /web-accessible-resources/redirects ./build/dev/${browser}/filters/declarative`;
+
+        const command = `pnpm exec tsurlfilter convert \\
+                            --debug \\
+                            ./build/dev/${browser}/filters \\
+                            /web-accessible-resources/redirects \\
+                            ./build/dev/${browser}/filters/declarative`;
+
         const result = await exec(command);
         assert.ok(result.stderr === '', 'No errors during execution');
     });
 
 program
     .command('watch')
-    .addOption(browserArgument)
+    .addOption(browserOption)
     .description('Watch for changes in filters and reload them')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
         const dnrRulesetsBrowser = MV3_BROWSER_TO_DNR_BROWSER_MAP[browser];
-        const command = `pnpm debug-filters:extract -b ${browser} && pnpm exec dnr-rulesets watch --debug -b ${dnrRulesetsBrowser} ./build/dev/${browser}/manifest.json /web-accessible-resources/redirects`;
-        const result = await exec(command);
+
+        const extractCommand = `pnpm debug-filters extract --browser ${browser}`;
+        const watchCommand = `pnpm exec dnr-rulesets watch \\
+                                --debug \\
+                                --browser ${dnrRulesetsBrowser} \\
+                                ./build/dev/${browser}/manifest.json \\
+                                /web-accessible-resources/redirects`;
+
+        const result = await exec(`${extractCommand} && ${watchCommand}`);
         assert.ok(result.stderr === '', 'No errors during execution');
     });
 
 program
     .command('extract')
-    .addOption(browserArgument)
+    .addOption(browserOption)
     .description('Extract filters from the specified browser filters')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
-        const command = `pnpm exec tsurlfilter extract-filters ./build/dev/${browser}/filters/declarative ./build/dev/${browser}/filters`;
+
+        const command = `pnpm exec tsurlfilter extract-filters \\
+                            ./build/dev/${browser}/filters/declarative \\
+                            ./build/dev/${browser}/filters`;
+
         const result = await exec(command);
         assert.ok(result.stderr === '', 'No errors during execution');
     });
