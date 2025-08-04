@@ -52,6 +52,7 @@ import {
     FILTERS_DEST,
     LOCAL_SCRIPT_RULES_COMMENT_CHROME_MV3,
     LOCAL_SCRIPT_RULES_COMMENT,
+    MV3_BROWSERS,
 } from '../constants';
 
 import { extractPreprocessedRawFilterList, readMetadataRuleSet } from './filter-extractor';
@@ -431,15 +432,7 @@ export const localScriptRules = { ${processedRules.join(`,${LF}`)} };${LF}`;
  * @param browser Browser name.
  */
 export const updateLocalResourcesForChromiumMv3 = async (browser: AssetsFiltersBrowser) => {
-    /**
-     * Supported browsers for MV3 resources update.
-     */
-    const CHROMIUM_MV3_BROWSERS = [
-        AssetsFiltersBrowser.ChromiumMv3,
-        AssetsFiltersBrowser.OperaMv3,
-    ];
-
-    if (!CHROMIUM_MV3_BROWSERS.includes(browser)) {
+    if (!MV3_BROWSERS.includes(browser)) {
         throw new Error(`Specified browser "${browser}" is not supported for MV3 resources update.`);
     }
 

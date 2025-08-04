@@ -106,6 +106,14 @@ export const enum AssetsFiltersBrowser {
     OperaMv3 = 'opera-mv3',
 }
 
+/**
+ * List of browsers on MV3.
+ */
+export const MV3_BROWSERS = [
+    AssetsFiltersBrowser.ChromiumMv3,
+    AssetsFiltersBrowser.OperaMv3,
+];
+
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {
     [BuildTargetEnv.Dev]: 'adguardadblockerdev@adguard.com',
     [BuildTargetEnv.Beta]: 'adguardadblockerbeta@adguard.com',
