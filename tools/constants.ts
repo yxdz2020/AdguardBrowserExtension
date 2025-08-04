@@ -150,6 +150,14 @@ export const MV3_ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3AssetsFilt
     [AssetsFiltersBrowser.OperaMv3]: BrowserFilters.Opera,
 };
 
+/**
+ * Map of {@link Mv3Browser} to {@link Mv3AssetsFiltersBrowser}.
+ */
+export const MV3_BROWSER_TO_ASSETS_FILTERS_BROWSER_MAP: Record<Mv3Browser, Mv3AssetsFiltersBrowser> = {
+    [Browser.ChromeMv3]: AssetsFiltersBrowser.ChromiumMv3,
+    [Browser.OperaMv3]: AssetsFiltersBrowser.OperaMv3,
+};
+
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {
     [BuildTargetEnv.Dev]: 'adguardadblockerdev@adguard.com',
     [BuildTargetEnv.Beta]: 'adguardadblockerbeta@adguard.com',
