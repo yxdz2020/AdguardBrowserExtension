@@ -20,31 +20,22 @@ import { exec as execCallback } from 'node:child_process';
 import { promisify } from 'node:util';
 import assert from 'node:assert';
 
-import { program } from 'commander';
+import { Argument, program } from 'commander';
 
-import { AssetsFiltersBrowser, type Mv3AssetsFiltersBrowser } from './constants';
+import { MV3_BROWSERS, type Mv3AssetsFiltersBrowser } from './constants';
 
 const exec = promisify(execCallback);
 
-const extractUnsafeRules = async (browser: Mv3AssetsFiltersBrowser) => {
-    const command = `pnpm exec dnr-rulesets exclude-unsafe-rules ./Extension/filters/${browser}/declarative`;
-    const result = await exec(command);
-    assert.ok(result.stderr === '', 'No errors during execution');
-    assert.ok(result.stdout === '', 'No output during execution');
-};
+const browserArgument = new Argument('<browser>', 'Browser name to extract unsafe rules for')
+    .choices(MV3_BROWSERS);
 
 program
-    .command(AssetsFiltersBrowser.ChromiumMv3)
-    .description('Extract unsafe rules for Chromium MV3 filters')
-    .action(async () => {
-        await extractUnsafeRules(AssetsFiltersBrowser.ChromiumMv3);
-    });
-
-program
-    .command(AssetsFiltersBrowser.OperaMv3)
-    .description('Extract unsafe rules for Opera MV3 filters')
-    .action(async () => {
-        await extractUnsafeRules(AssetsFiltersBrowser.OperaMv3);
+    .description('Extract unsafe rules from browser filters')
+    .addArgument(browserArgument)
+    .action(async (browser: Mv3AssetsFiltersBrowser) => {
+        const command = `pnpm exec dnr-rulesets exclude-unsafe-rules ./Extension/filters/${browser}/declarative`;
+        const result = await exec(command);
+        assert.ok(result.stderr === '', 'No errors during execution');
     });
 
 program.parse(process.argv);
