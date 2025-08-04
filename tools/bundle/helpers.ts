@@ -17,10 +17,12 @@
  */
 
 import {
-    Browser,
+    type Browser,
     type BuildTargetEnv,
     ENV_CONF,
     type EnvConfig,
+    type Mv3Browser,
+    MV3_BROWSERS,
 } from '../constants';
 
 import { type BrowserConfig, BROWSERS_CONF } from './common-constants';
@@ -41,7 +43,6 @@ export const getEnvConf = (env: BuildTargetEnv): EnvConfig => {
     return envConfig;
 };
 
-export const isBrowserMv3 = (browser: Browser): boolean => {
-    return browser === Browser.ChromeMv3
-        || browser === Browser.OperaMv3;
+export const isBrowserMv3 = (browser: Browser): browser is Mv3Browser => {
+    return MV3_BROWSERS.includes(browser as Mv3Browser);
 };
