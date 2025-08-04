@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Compatibility of `$header` modifier with `$match-case`
   and `$third-party` modifiers in MV2 [#2942].
 - `zip` and `crx` artifacts for the extension builds [#3163], [#2488].
+- Separate MV3 build for Opera.
 
 ### Changed
 
@@ -24,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved accessibility for visually impaired users [#3035], [#2315], [#2332].
 - Updated [@adguard/agtree] to v3.2.2.
 - Updated [@adguard/assistant] to v4.3.75.
-- Updated [@adguard/dnr-rulesets] to v3.2.0.
+- Updated [@adguard/dnr-rulesets] to v3.3.0.
 - Updated [@adguard/filters-downloader] to v2.4.2.
 - Updated [@adguard/logger] to v2.0.0.
 - Updated [@adguard/scriptlets] to v2.2.8.
