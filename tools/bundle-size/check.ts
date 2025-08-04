@@ -21,6 +21,8 @@ import {
     BuildTargetEnv,
     isValidBrowserTarget,
     isValidBuildEnv,
+    MV3_BROWSERS,
+    type Mv3Browser,
 } from '../constants';
 import { getBrowserConf } from '../bundle/helpers';
 
@@ -247,22 +249,22 @@ function compareBuildSizes(
 }
 
 /**
- * Check the size of the Chrome MV3 bundle.
+ * Check the size of the MV3 bundle.
  *
  * @param buildType Build environment (beta, release, etc.).
- * @param targetBrowser Target browser, should be Browser.ChromeMv3.
+ * @param targetMv3Browser Target MV3 browser.
  *
  * @returns True if the size exceeds the limit, else false.
  */
-async function checkChromeMv3BundleSize(buildType: BuildTargetEnv, targetBrowser: Browser): Promise<boolean> {
-    console.log(`\n\nChecking "${targetBrowser}" bundle size...`);
+async function checkMv3BundleSize(buildType: BuildTargetEnv, targetMv3Browser: Mv3Browser): Promise<boolean> {
+    console.log(`\n\nChecking "${targetMv3Browser}" bundle size...`);
 
     try {
         // Get current build stats for this target
-        const currentStats = await getCurrentBuildStats(buildType, targetBrowser);
+        const currentStats = await getCurrentBuildStats(buildType, targetMv3Browser);
 
         const mv3Size = currentStats.stats.zip;
-        const zipArchiveName = `${getBrowserConf(targetBrowser).zipName}${ZIP_EXTENSION}`;
+        const zipArchiveName = `${getBrowserConf(targetMv3Browser).zipName}${ZIP_EXTENSION}`;
 
         if (mv3Size && mv3Size > MAX_MV3_SIZE_BYTES) {
             console.error(`${zipArchiveName}: ${(mv3Size / (1024 * 1024)).toFixed(2)}MB - Exceeds maximum allowed size of 30MB! ❌`);
@@ -270,11 +272,11 @@ async function checkChromeMv3BundleSize(buildType: BuildTargetEnv, targetBrowser
             return true;
         }
 
-        console.log(`✅ "${targetBrowser}" bundle size is ok!`);
+        console.log(`✅ "${targetMv3Browser}" bundle size is ok!`);
 
         return false;
     } catch (e) {
-        console.error(`Error checking "${targetBrowser}" bundle size: ${e}`);
+        console.error(`Error checking "${targetMv3Browser}" bundle size: ${e}`);
 
         return true;
     }
@@ -441,18 +443,16 @@ async function checkBundleSizes({ buildEnv, targetBrowser, threshold }: CheckBun
         }
     }
 
-    // Check max size for chrome-mv3 target, because we pack a lot
-    // of filters data inside this target.
-    let hasChromeMv3SizeIssues = false;
-    if (targets.includes(Browser.ChromeMv3)) {
-        hasChromeMv3SizeIssues = await checkChromeMv3BundleSize(buildEnv, Browser.ChromeMv3);
-    }
+    // Check max size for mv3 targets, because we pack a lot of filters data inside this target
+    let hasMv3SizeIssues = false;
+    for (const mv3Target of MV3_BROWSERS) {
+        if (!targets.includes(mv3Target)) {
+            continue;
+        }
 
-    // Check max size for opera-mv3 target, because we pack a lot
-    // of filters data inside this target.
-    let hasOperaMv3SizeIssues = false;
-    if (targets.includes(Browser.OperaMv3)) {
-        hasOperaMv3SizeIssues = await checkChromeMv3BundleSize(buildEnv, Browser.OperaMv3);
+        // Note: We need to check every MV3 target, thats why it's not inside of the boolean expression
+        const isTargetHasMv3SizeIssues = await checkMv3BundleSize(buildEnv, mv3Target);
+        hasMv3SizeIssues = hasMv3SizeIssues || isTargetHasMv3SizeIssues;
     }
 
     let hasFirefoxAmoSizeIssues = false;
@@ -476,8 +476,7 @@ async function checkBundleSizes({ buildEnv, targetBrowser, threshold }: CheckBun
     // Exit with error if there are issues in any target
     if (
         hasSizeIssues
-        || hasChromeMv3SizeIssues
-        || hasOperaMv3SizeIssues
+        || hasMv3SizeIssues
         || hasFirefoxAmoSizeIssues
         || hasDuplicates
         || hasFirefoxJsIssues
