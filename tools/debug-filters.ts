@@ -25,7 +25,7 @@ import { Option, program } from 'commander';
 import {
     Browser,
     MV3_BROWSERS,
-    BROWSER_TO_DNR_MAP,
+    BROWSER_TO_DNR_BROWSER_MAP,
     type Mv3Browser,
 } from './constants';
 
@@ -41,7 +41,7 @@ program
     .description('Load filters for the specified browser')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
-        const dnrRulesetsBrowser = BROWSER_TO_DNR_MAP[browser];
+        const dnrRulesetsBrowser = BROWSER_TO_DNR_BROWSER_MAP[browser];
         const command = `pnpm exec dnr-rulesets load --latest-filters --browser ${dnrRulesetsBrowser} ./build/dev/${browser}/filters`;
         const result = await exec(command);
         assert.ok(result.stderr === '', 'No errors during execution');

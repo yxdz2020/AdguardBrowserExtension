@@ -26,7 +26,7 @@ import crypto from 'crypto';
 import fse from 'fs-extra';
 import axios from 'axios';
 
-import { AssetsLoader, BrowserFilters } from '@adguard/dnr-rulesets';
+import { AssetsLoader } from '@adguard/dnr-rulesets';
 
 import { cliLog } from '../cli-log';
 import {
@@ -36,6 +36,8 @@ import {
     FILTER_DOWNLOAD_URL_FORMAT,
     OPTIMIZED_FILTER_DOWNLOAD_URL_FORMAT,
     AssetsFiltersBrowser,
+    type Mv3AssetsFiltersBrowser,
+    ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP,
 } from '../constants';
 import {
     ADGUARD_FILTERS_IDS,
@@ -205,21 +207,15 @@ const downloadFilter = async (resourceData: DownloadResourceData, browser: Asset
  * Copies the DNR rulesets from the @adguard/dnr-rulesets internal directory to
  * the declarative filters directory in browser extension.
  */
-export const downloadAndPrepareMv3Filters = async () => {
+export const downloadAndPrepareMv3Filters = async (browser: Mv3AssetsFiltersBrowser) => {
     const loader = new AssetsLoader();
 
     // Note: it is just copying the files from the @adguard/dnr-rulesets package
     // to the filters directory. The files are already downloaded.
-    return Promise.all([
-        loader.load(
-            FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.ChromiumMv3),
-            { browser: BrowserFilters.ChromiumMV3 },
-        ),
-        loader.load(
-            FILTERS_DEST.replace('%browser', AssetsFiltersBrowser.OperaMv3),
-            { browser: BrowserFilters.Opera },
-        ),
-    ]);
+    return loader.load(
+        FILTERS_DEST.replace('%browser', browser),
+        { browser: ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP[browser] },
+    );
 };
 
 /**
@@ -244,5 +240,6 @@ export const downloadFilters = async () => {
     await startDownload(AssetsFiltersBrowser.Edge);
     await startDownload(AssetsFiltersBrowser.Firefox);
     await startDownload(AssetsFiltersBrowser.Opera);
-    await downloadAndPrepareMv3Filters();
+    await downloadAndPrepareMv3Filters(AssetsFiltersBrowser.ChromiumMv3);
+    await downloadAndPrepareMv3Filters(AssetsFiltersBrowser.OperaMv3);
 };

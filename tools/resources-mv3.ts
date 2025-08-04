@@ -32,7 +32,10 @@ import { updateLocalResourcesForChromiumMv3 } from './resources/update-local-scr
  */
 const resourcesMv3 = async (skipLocalResources = false) => {
     console.log('Downloading resources for MV3...');
-    await downloadAndPrepareMv3Filters();
+    await Promise.all([
+        downloadAndPrepareMv3Filters(AssetsFiltersBrowser.ChromiumMv3),
+        downloadAndPrepareMv3Filters(AssetsFiltersBrowser.OperaMv3),
+    ]);
     console.log('Resources for MV3 downloaded');
 
     if (!skipLocalResources) {

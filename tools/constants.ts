@@ -106,9 +106,9 @@ export const MV3_BROWSERS = [
 export type Mv3Browser = (typeof MV3_BROWSERS)[number];
 
 /**
- * Map of {@link Mv3Browser} to {@link Mv3Browser}.
+ * Map of {@link Mv3Browser} to {@link BrowserFilters}.
  */
-export const BROWSER_TO_DNR_MAP: Record<Mv3Browser, BrowserFilters> = {
+export const BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3Browser, BrowserFilters> = {
     [Browser.ChromeMv3]: BrowserFilters.ChromiumMV3,
     [Browser.OperaMv3]: BrowserFilters.Opera,
 };
@@ -141,6 +141,14 @@ export const MV3_ASSETS_FILTERS_BROWSERS = [
  * Infered type for {@link MV3_ASSETS_FILTERS_BROWSERS}.
  */
 export type Mv3AssetsFiltersBrowser = (typeof MV3_ASSETS_FILTERS_BROWSERS)[number];
+
+/**
+ * Map of {@link Mv3AssetsFiltersBrowser} to {@link BrowserFilters}.
+ */
+export const ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3AssetsFiltersBrowser, BrowserFilters> = {
+    [AssetsFiltersBrowser.ChromiumMv3]: BrowserFilters.ChromiumMV3,
+    [AssetsFiltersBrowser.OperaMv3]: BrowserFilters.Opera,
+};
 
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {
     [BuildTargetEnv.Dev]: 'adguardadblockerdev@adguard.com',
