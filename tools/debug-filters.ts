@@ -64,7 +64,8 @@ program
     .description('Watch for changes in filters and reload them')
     .action(async (options) => {
         const browser = options.browser as Mv3Browser;
-        const command = `pnpm debug-filters:extract -b ${browser} && pnpm exec dnr-rulesets watch --debug ./build/dev/${browser}/manifest.json /web-accessible-resources/redirects`;
+        const dnrRulesetsBrowser = MV3_BROWSER_TO_DNR_BROWSER_MAP[browser];
+        const command = `pnpm debug-filters:extract -b ${browser} && pnpm exec dnr-rulesets watch --debug -b ${dnrRulesetsBrowser} ./build/dev/${browser}/manifest.json /web-accessible-resources/redirects`;
         const result = await exec(command);
         assert.ok(result.stderr === '', 'No errors during execution');
     });
