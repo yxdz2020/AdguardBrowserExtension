@@ -180,7 +180,7 @@ export const genMv3CommonConfig = (
                          * `CopyWebpackPlugin`. We actually use `commonManifest`
                          * imported above.
                          */
-                        from: path.resolve(__dirname, '../manifest.common.ts'),
+                        from: path.resolve(__dirname, './manifest.common.ts'),
                         to: 'manifest.json',
                         transform: () => {
                             return transformManifest(Buffer.from(JSON.stringify(commonManifest)));
