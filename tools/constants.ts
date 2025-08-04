@@ -108,7 +108,7 @@ export type Mv3Browser = (typeof MV3_BROWSERS)[number];
 /**
  * Map of {@link Mv3Browser} to {@link BrowserFilters}.
  */
-export const BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3Browser, BrowserFilters> = {
+export const MV3_BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3Browser, BrowserFilters> = {
     [Browser.ChromeMv3]: BrowserFilters.ChromiumMV3,
     [Browser.OperaMv3]: BrowserFilters.Opera,
 };
@@ -145,7 +145,7 @@ export type Mv3AssetsFiltersBrowser = (typeof MV3_ASSETS_FILTERS_BROWSERS)[numbe
 /**
  * Map of {@link Mv3AssetsFiltersBrowser} to {@link BrowserFilters}.
  */
-export const ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3AssetsFiltersBrowser, BrowserFilters> = {
+export const MV3_ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP: Record<Mv3AssetsFiltersBrowser, BrowserFilters> = {
     [AssetsFiltersBrowser.ChromiumMv3]: BrowserFilters.ChromiumMV3,
     [AssetsFiltersBrowser.OperaMv3]: BrowserFilters.Opera,
 };

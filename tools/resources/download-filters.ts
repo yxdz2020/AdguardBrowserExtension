@@ -37,7 +37,7 @@ import {
     OPTIMIZED_FILTER_DOWNLOAD_URL_FORMAT,
     AssetsFiltersBrowser,
     type Mv3AssetsFiltersBrowser,
-    ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP,
+    MV3_ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP,
 } from '../constants';
 import {
     ADGUARD_FILTERS_IDS,
@@ -214,7 +214,7 @@ export const downloadAndPrepareMv3Filters = async (browser: Mv3AssetsFiltersBrow
     // to the filters directory. The files are already downloaded.
     return loader.load(
         FILTERS_DEST.replace('%browser', browser),
-        { browser: ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP[browser] },
+        { browser: MV3_ASSETS_FILTERS_BROWSER_TO_DNR_BROWSER_MAP[browser] },
     );
 };
 

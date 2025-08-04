@@ -428,7 +428,7 @@ export const localScriptRules = { ${processedRules.join(`,${LF}`)} };${LF}`;
 };
 
 /**
- * Updates local resources for specified Chromium MV3.
+ * Updates local resources for specified Chromium MV3 browser.
  *
  * @param browser Browser name.
  */
