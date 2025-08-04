@@ -267,7 +267,7 @@ branch-overrides:
                   # unsafe rules to 4900, since quota for session rules is 5000
                   # and we need to leave some space for other rules,
                   # e.g. general $stealth rules from Tracking Protection filter.
-                  pnpm resources:mv3:extract-unsafe-rules --limit 4900
+                  pnpm resources:mv3:extract-unsafe-rules chromium-mv3 --limit 4900
 
                   # Create artifacts directory if it doesn't exist.
                   mkdir -p artifacts
