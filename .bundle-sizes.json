@@ -284,6 +284,54 @@
       },
       "version": "5.2.0",
       "updatedAt": "2025-06-06T18:36:49.091Z"
+    },
+    "opera-mv3": {
+      "stats": {
+        "zip": 56500097,
+        "pages": {
+          "assistant-inject.js": 1852465,
+          "background.js": 21010820,
+          "blocking/blocked.html": 120459,
+          "blocking/blocked.js": 2390707,
+          "content-script-end.js": 228267,
+          "content-script-start.js": 1453548,
+          "devtools-elements-sidebar.html": 3232,
+          "devtools-elements-sidebar.js": 438871,
+          "devtools.html": 427,
+          "devtools.js": 108404,
+          "filtering-log.html": 1025,
+          "filtering-log.js": 4915897,
+          "fullscreen-user-rules.html": 1312,
+          "fullscreen-user-rules.js": 1866271,
+          "gpc.js": 15684,
+          "hide-document-referrer.js": 15994,
+          "options.html": 1094,
+          "options.js": 11491065,
+          "popup.html": 557,
+          "popup.js": 5521711,
+          "post-install.html": 1160,
+          "post-install.js": 844976,
+          "subscribe.js": 420212,
+          "thankyou.js": 999910
+        },
+        "vendors": {
+          "agtree.js": 9453,
+          "css-tokenizer.js": 202072,
+          "mobx.js": 502302,
+          "react.js": 2563593,
+          "scriptlets.js": 1958,
+          "text-encoding-polyfill.js": 1511578,
+          "tsurlfilter-declarative-converter.js": 2292348,
+          "tsurlfilter.js": 6565416,
+          "tswebextension.js": 3482577,
+          "xstate.js": 416515
+        },
+        "shared": {
+          "editor.js": 4968909
+        }
+      },
+      "version": "5.2.44",
+      "updatedAt": "2025-08-04T09:56:06.070Z"
     }
   },
   "beta": {
@@ -572,6 +620,54 @@
       },
       "version": "5.2.23",
       "updatedAt": "2025-07-03T11:18:34.472Z"
+    },
+    "opera-mv3": {
+      "stats": {
+        "zip": 46184829,
+        "pages": {
+          "assistant-inject.js": 736374,
+          "background.js": 7389638,
+          "blocking/blocked.html": 106802,
+          "blocking/blocked.js": 873674,
+          "content-script-end.js": 62195,
+          "content-script-start.js": 489294,
+          "devtools-elements-sidebar.html": 2297,
+          "devtools-elements-sidebar.js": 127593,
+          "devtools.html": 395,
+          "devtools.js": 40437,
+          "filtering-log.html": 966,
+          "filtering-log.js": 1572410,
+          "fullscreen-user-rules.html": 1229,
+          "fullscreen-user-rules.js": 592901,
+          "gpc.js": 3699,
+          "hide-document-referrer.js": 3745,
+          "options.html": 1035,
+          "options.js": 3710020,
+          "popup.html": 499,
+          "popup.js": 1903263,
+          "post-install.html": 840,
+          "post-install.js": 251429,
+          "subscribe.js": 119917,
+          "thankyou.js": 309249
+        },
+        "vendors": {
+          "agtree.js": 679,
+          "css-tokenizer.js": 80188,
+          "mobx.js": 177719,
+          "react.js": 135910,
+          "scriptlets.js": 766,
+          "text-encoding-polyfill.js": 633881,
+          "tsurlfilter-declarative-converter.js": 882479,
+          "tsurlfilter.js": 2376126,
+          "tswebextension.js": 1322943,
+          "xstate.js": 152018
+        },
+        "shared": {
+          "editor.js": 1842803
+        }
+      },
+      "version": "5.2.44",
+      "updatedAt": "2025-08-04T09:56:21.952Z"
     }
   },
   "release": {
@@ -860,6 +956,54 @@
           "editor.js": 1841671
         }
       }
+    },
+    "opera-mv3": {
+      "stats": {
+        "zip": 46184471,
+        "pages": {
+          "assistant-inject.js": 736374,
+          "background.js": 7389633,
+          "blocking/blocked.html": 106802,
+          "blocking/blocked.js": 873674,
+          "content-script-end.js": 62195,
+          "content-script-start.js": 489294,
+          "devtools-elements-sidebar.html": 2297,
+          "devtools-elements-sidebar.js": 127593,
+          "devtools.html": 395,
+          "devtools.js": 40437,
+          "filtering-log.html": 966,
+          "filtering-log.js": 1572410,
+          "fullscreen-user-rules.html": 1229,
+          "fullscreen-user-rules.js": 592901,
+          "gpc.js": 3699,
+          "hide-document-referrer.js": 3745,
+          "options.html": 1035,
+          "options.js": 3710015,
+          "popup.html": 499,
+          "popup.js": 1903263,
+          "post-install.html": 840,
+          "post-install.js": 251429,
+          "subscribe.js": 119917,
+          "thankyou.js": 309249
+        },
+        "vendors": {
+          "agtree.js": 679,
+          "css-tokenizer.js": 80188,
+          "mobx.js": 177719,
+          "react.js": 135910,
+          "scriptlets.js": 766,
+          "text-encoding-polyfill.js": 633881,
+          "tsurlfilter-declarative-converter.js": 882479,
+          "tsurlfilter.js": 2376126,
+          "tswebextension.js": 1322943,
+          "xstate.js": 152018
+        },
+        "shared": {
+          "editor.js": 1842803
+        }
+      },
+      "version": "5.2.44",
+      "updatedAt": "2025-08-04T09:56:26.930Z"
     }
   }
 }
