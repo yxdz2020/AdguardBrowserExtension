@@ -52,7 +52,8 @@ import {
     FILTERS_DEST,
     LOCAL_SCRIPT_RULES_COMMENT_CHROME_MV3,
     LOCAL_SCRIPT_RULES_COMMENT,
-    MV3_BROWSERS,
+    MV3_ASSETS_FILTERS_BROWSERS,
+    type Mv3AssetsFiltersBrowser,
 } from '../constants';
 
 import { extractPreprocessedRawFilterList, readMetadataRuleSet } from './filter-extractor';
@@ -318,7 +319,7 @@ const saveToJsFile = async (
  */
 const updateLocalScriptRulesForChromiumMv3 = async (
     jsRules: Set<string>,
-    browser: AssetsFiltersBrowser,
+    browser: Mv3AssetsFiltersBrowser,
 ) => {
     /**
      * This is a test case rule that is used for integration testing.
@@ -431,8 +432,8 @@ export const localScriptRules = { ${processedRules.join(`,${LF}`)} };${LF}`;
  *
  * @param browser Browser name.
  */
-export const updateLocalResourcesForChromiumMv3 = async (browser: AssetsFiltersBrowser) => {
-    if (!MV3_BROWSERS.includes(browser)) {
+export const updateLocalResourcesForChromiumMv3 = async (browser: Mv3AssetsFiltersBrowser) => {
+    if (!MV3_ASSETS_FILTERS_BROWSERS.includes(browser)) {
         throw new Error(`Specified browser "${browser}" is not supported for MV3 resources update.`);
     }
 

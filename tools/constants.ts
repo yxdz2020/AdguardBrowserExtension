@@ -92,6 +92,27 @@ export enum Browser {
     Edge = 'edge',
 }
 
+/**
+ * List of {@link Browser} values that are MV3 extension.
+ */
+export const MV3_BROWSERS = [
+    Browser.ChromeMv3,
+    Browser.OperaMv3,
+] as const;
+
+/**
+ * Infered type for {@link MV3_BROWSERS}.
+ */
+export type Mv3Browser = (typeof MV3_BROWSERS)[number];
+
+/**
+ * Map of {@link Mv3Browser} to {@link Mv3Browser}.
+ */
+export const BROWSER_TO_DNR_MAP: Record<Mv3Browser, BrowserFilters> = {
+    [Browser.ChromeMv3]: BrowserFilters.ChromiumMV3,
+    [Browser.OperaMv3]: BrowserFilters.Opera,
+};
+
 export const isValidBrowserTarget = (target: any): target is Browser => {
     return Object.values(Browser).includes(target as Browser);
 };
@@ -109,25 +130,17 @@ export const enum AssetsFiltersBrowser {
 }
 
 /**
- * List of browsers on MV3.
+ * List of {@link AssetsFiltersBrowser} values that are MV3 extension.
  */
-export const MV3_BROWSERS = [
+export const MV3_ASSETS_FILTERS_BROWSERS = [
     AssetsFiltersBrowser.ChromiumMv3,
     AssetsFiltersBrowser.OperaMv3,
 ] as const;
 
 /**
- * Infered type for {@link MV3_BROWSERS}.
+ * Infered type for {@link MV3_ASSETS_FILTERS_BROWSERS}.
  */
-export type Mv3AssetsFiltersBrowser = typeof MV3_BROWSERS[number];
-
-/**
- * {@link AssetsFiltersBrowser} to {@link BrowserFilters} map.
- */
-export const DNR_RULESETS_BROWSER_MAP: Record<Mv3AssetsFiltersBrowser, BrowserFilters> = {
-    [AssetsFiltersBrowser.ChromiumMv3]: BrowserFilters.ChromiumMV3,
-    [AssetsFiltersBrowser.OperaMv3]: BrowserFilters.Opera,
-};
+export type Mv3AssetsFiltersBrowser = (typeof MV3_ASSETS_FILTERS_BROWSERS)[number];
 
 export const FIREFOX_APP_IDS_MAP: Record<BuildTargetEnv, string> = {
     [BuildTargetEnv.Dev]: 'adguardadblockerdev@adguard.com',

@@ -22,12 +22,12 @@ import assert from 'node:assert';
 
 import { Argument, program } from 'commander';
 
-import { MV3_BROWSERS, type Mv3AssetsFiltersBrowser } from './constants';
+import { MV3_ASSETS_FILTERS_BROWSERS, type Mv3AssetsFiltersBrowser } from './constants';
 
 const exec = promisify(execCallback);
 
 const browserArgument = new Argument('<browser>', 'Browser name to extract unsafe rules for')
-    .choices(MV3_BROWSERS);
+    .choices(MV3_ASSETS_FILTERS_BROWSERS);
 
 program
     .description('Extract unsafe rules from browser filters')
