@@ -266,7 +266,7 @@ const saveToJsFile = async (
 };
 
 /**
- * Updates `local_script_rules.js` for Chromium MV3 based on JS rules from the pre-built filters.
+ * Updates `local_script_rules.js` for MV3 based on JS rules from the pre-built filters.
  *
  * This is STEP 1.
  *
@@ -277,7 +277,7 @@ const saveToJsFile = async (
  *
  * 1. Default - regular users that did not grant User scripts API permission explicitly:
  *    - We collect and pre-build script rules from the filters and statically bundle
- *      them into the extension - STEP 1. See 'updateLocalResourcesForChromiumMv3' in our build tools.
+ *      them into the extension - STEP 1. See 'updateLocalResourcesForMv3' in our build tools.
  *      IMPORTANT: all scripts and their arguments are local and bundled within the extension.
  *    - These pre-verified local scripts are passed to the engine - STEP 2.
  *    - At runtime before the execution, we check if each script rule is included
@@ -317,7 +317,7 @@ const saveToJsFile = async (
  *
  * @param jsRules Set of unique JS rules collected from the pre-built filters.
  */
-const updateLocalScriptRulesForChromiumMv3 = async (
+const updateLocalScriptRulesForMv3 = async (
     jsRules: Set<string>,
     browser: Mv3AssetsFiltersBrowser,
 ) => {
@@ -428,11 +428,11 @@ export const localScriptRules = { ${processedRules.join(`,${LF}`)} };${LF}`;
 };
 
 /**
- * Updates local resources for specified Chromium MV3 browser.
+ * Updates local resources for specified MV3 browser.
  *
  * @param browser Browser name.
  */
-export const updateLocalResourcesForChromiumMv3 = async (browser: Mv3AssetsFiltersBrowser) => {
+export const updateLocalResourcesForMv3 = async (browser: Mv3AssetsFiltersBrowser) => {
     if (!MV3_ASSETS_FILTERS_BROWSERS.includes(browser)) {
         throw new Error(`Specified browser "${browser}" is not supported for MV3 resources update.`);
     }
@@ -468,7 +468,7 @@ export const updateLocalResourcesForChromiumMv3 = async (browser: Mv3AssetsFilte
         });
     }
 
-    await updateLocalScriptRulesForChromiumMv3(jsRules, browser);
+    await updateLocalScriptRulesForMv3(jsRules, browser);
 };
 
 export const updateLocalScriptRulesForFirefox = async () => {

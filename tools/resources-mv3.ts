@@ -20,7 +20,7 @@
 import { AssetsFiltersBrowser } from './constants';
 import { findDangerousRules } from './resources/dangerous-rules';
 import { downloadAndPrepareMv3Filters } from './resources/download-filters';
-import { updateLocalResourcesForChromiumMv3 } from './resources/update-local-script-rules';
+import { updateLocalResourcesForMv3 } from './resources/update-local-script-rules';
 
 // TODO: worth refactoring since this function is separated from ./resources.ts
 
@@ -41,8 +41,8 @@ const resourcesMv3 = async (skipLocalResources = false) => {
     if (!skipLocalResources) {
         console.log('Updating local resources for MV3...');
         await Promise.all([
-            updateLocalResourcesForChromiumMv3(AssetsFiltersBrowser.ChromiumMv3),
-            updateLocalResourcesForChromiumMv3(AssetsFiltersBrowser.OperaMv3),
+            updateLocalResourcesForMv3(AssetsFiltersBrowser.ChromiumMv3),
+            updateLocalResourcesForMv3(AssetsFiltersBrowser.OperaMv3),
         ]);
         console.log('Local resources for MV3 updated');
     } else {
