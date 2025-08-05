@@ -24,6 +24,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { type Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { type Manifest } from 'webextension-polyfill';
 
 import { RulesetsInjector } from '@adguard/dnr-rulesets';
 
@@ -57,6 +58,11 @@ import {
 } from './webpack.common';
 import { isBrowserMv3 } from './helpers';
 
+/**
+ * Partial type for {@link Manifest.WebExtensionManifest}.
+ */
+type PartialManifest = Partial<Manifest.WebExtensionManifest>;
+
 /* eslint-disable @typescript-eslint/naming-convention */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -84,7 +90,7 @@ const rulesetsInjector = new RulesetsInjector();
  * Generates a common Webpack configuration for MV3 browsers.
  *
  * @param browserConfig Browser configuration object.
- * @param manifest The manifest to use for the browser.
+ * @param partialManifest The partial manifest to use for the browser.
  * @param isWatchMode Whether the configuration is for watch mode.
  *
  * @returns A Webpack configuration object.
@@ -94,7 +100,7 @@ const rulesetsInjector = new RulesetsInjector();
  */
 export const genMv3CommonConfig = (
     browserConfig: BrowserConfig,
-    manifest: any,
+    partialManifest: PartialManifest,
     isWatchMode = false,
 ): Configuration => {
     const { browser, buildDir } = browserConfig;
@@ -123,14 +129,16 @@ export const genMv3CommonConfig = (
             content,
             rulesetsInjector.applyRulesets(
                 (id: string) => `filters/declarative/${id}/${id}.json`,
-                manifest,
+                // Cast to `any` because `@adguard/dnr-rulesets` manifest type is
+                // not compatible with `webextension-polyfill` manifest type.
+                partialManifest as any,
                 filters,
                 {
                     forceUpdate: true,
                     enable: [BASE_FILTER_ID],
                     rulesetPrefix: RULESET_NAME_PREFIX,
                 },
-            ),
+            ) as PartialManifest,
         );
     };
 
