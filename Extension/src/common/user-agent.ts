@@ -231,7 +231,20 @@ export class UserAgent {
         return Number.isNaN(versionNumber) ? undefined : versionNumber;
     }
 
+    /**
+     * Returns a major engine version.
+     *
+     * @returns engine version number or undefined.
+     */
+    static getEngineVersion(): number | undefined {
+        const engine = this.parser.getEngine();
+        const versionNumber = Number(engine.version?.split('.')[0]);
+        return Number.isNaN(versionNumber) ? undefined : versionNumber;
+    }
+
     static version = UserAgent.getVersion();
+
+    static engineVersion = UserAgent.getEngineVersion();
 
     static isChrome = UserAgent.isTargetBrowser('Chrome');
 

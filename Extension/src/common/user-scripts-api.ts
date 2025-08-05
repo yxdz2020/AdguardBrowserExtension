@@ -55,7 +55,7 @@ export const shouldShowUserScriptsApiWarning = (): boolean => {
         return false;
     }
 
-    const currentChromeVersion = UserAgent.isChromium ? Number(UserAgent.version) : null;
+    const currentChromeVersion = UserAgent.isChromium ? Number(UserAgent.engineVersion) : null;
 
     if (!currentChromeVersion) {
         logger.debug('[ext.user-scripts-api]: User Scripts API supported only in Chromium-based browsers');

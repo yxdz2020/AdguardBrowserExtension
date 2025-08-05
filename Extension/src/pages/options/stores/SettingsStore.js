@@ -193,7 +193,7 @@ class SettingsStore {
 
     @observable isChrome = null;
 
-    @observable currentChromeVersion = UserAgent.isChromium ? Number(UserAgent.version) : null;
+    @observable currentChromeVersion = UserAgent.isChromium ? Number(UserAgent.engineVersion) : null;
 
     @observable searchInput = '';
 
