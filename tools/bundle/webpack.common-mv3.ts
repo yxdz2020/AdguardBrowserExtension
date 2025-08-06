@@ -121,7 +121,7 @@ export const genMv3CommonConfig = (
 
         const filters = fs
             .readdirSync(filtersDest)
-            .filter((filter) => filter.match(/ruleset_\d+/));
+            .filter((filter) => filter.match(new RegExp(`${RULESET_NAME_PREFIX}\\d+`)));
 
         return updateManifestBuffer(
             BUILD_ENV,
