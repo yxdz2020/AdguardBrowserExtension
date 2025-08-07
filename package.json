@@ -37,7 +37,7 @@
     "author": "adguard@adguard.com",
     "license": "GPL-3.0",
     "devDependencies": {
-        "@adguard/dnr-rulesets": "https://github.com/AdguardTeam/tsurlfilter/raw/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz",
+        "@adguard/dnr-rulesets": "https://github.com/AdguardTeam/tsurlfilter/raw/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz",
         "@adguard/eslint-plugin-logger-context": "^1.0.1",
         "@adguard/re2-wasm": "1.2.0",
         "@types/chrome": "0.0.268",

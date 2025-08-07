@@ -145,8 +145,8 @@ importers:
         version: 3.4.0(zod@3.24.4)
     devDependencies:
       '@adguard/dnr-rulesets':
-        specifier: https://github.com/AdguardTeam/tsurlfilter/raw/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz
-        version: https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz
+        specifier: https://github.com/AdguardTeam/tsurlfilter/raw/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz
+        version: https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz
       '@adguard/eslint-plugin-logger-context':
         specifier: ^1.0.1
         version: 1.0.1
@@ -402,8 +402,8 @@ packages:
     engines: {node: '>=18.13.0'}
     hasBin: true
 
-  '@adguard/dnr-rulesets@https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz':
-    resolution: {tarball: https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz}
+  '@adguard/dnr-rulesets@https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz':
+    resolution: {tarball: https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz}
     version: 3.3.20250716115023
     hasBin: true
 
@@ -5093,7 +5093,7 @@ snapshots:
       commander: 11.1.0
       crypto-js: 4.2.0
 
-  '@adguard/dnr-rulesets@https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/73fabe6657583dacf3fc045a23405cd3035cd86c/packages/dnr-rulesets/dnr-rulesets.tgz':
+  '@adguard/dnr-rulesets@https://raw.githubusercontent.com/AdguardTeam/tsurlfilter/3d7039b8f6db4552979c13ce662ceb47d23e2ac5/packages/dnr-rulesets/dnr-rulesets.tgz':
     dependencies:
       '@adguard/agtree': 3.2.2
       '@adguard/logger': 2.0.0
