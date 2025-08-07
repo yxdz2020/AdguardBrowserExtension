@@ -1,46 +1,16 @@
 /**
- * To fully comply with Chrome Web Store policies regarding remote code execution,
- * we implement a strict security-focused approach for JavaScript rule execution.
+ * Search for 'JS_RULES_EXECUTION' to find all parts of script execution
+ * process in the extension.
  *
- * 1. Default - regular users that did not grant User scripts API permission explicitly:
- *    - We collect and pre-build script rules from the filters and statically bundle
- *      them into the extension - STEP 1. See 'updateLocalResourcesForMv3' in our build tools.
- *      IMPORTANT: all scripts and their arguments are local and bundled within the extension.
- *    - These pre-verified local scripts are passed to the engine - STEP 2.
- *    - At runtime before the execution, we check if each script rule is included
- *      in our local scripts list (STEP 3).
- *    - Only pre-verified local scripts are executed via chrome.scripting API (STEP 4.1 and 4.2).
- *      All other scripts are discarded.
- *    - Custom filters are NOT allowed for regular users to prevent any possibility
- *      of remote code execution, regardless of rule interpretation.
+ * 1. We collect and bundle all scripts that can be executed on web pages into
+ *     the extension package into so-called `localScriptRules`.
+ * 2. Rules that control when and where these scripts can be executed are also
+ *     bundled within the extension package inside ruleset files.
+ * 3. The rules look like: `example.org#%#scripttext`. Whenever the rule is
+ *     matched, we check if there's a function for scripttext in
+ *     `localScriptRules`, retrieve it from there and execute it.
  *
- * 2. For advanced users that explicitly granted User scripts API permission -
- *    via enabling the Developer mode or Allow user scripts in the extension details:
- *    - Custom filters are allowed and may contain Scriptlet and JS rules
- *      that can be executed using the browser's built-in userScripts API (STEP 4.3),
- *      which provides a secure sandbox.
- *    - This execution bypasses the local script verification process but remains
- *      isolated and secure through Chrome's native sandboxing.
- *    - This mode requires explicit user activation and is intended for advanced users only.
- *
- * IMPORTANT:
- * Custom filters are ONLY supported when User scripts API permission is explicitly enabled.
- * This strict policy prevents Chrome Web Store rejection due to potential remote script execution.
- * When custom filters are allowed, they may contain:
- * 1. Network rules – converted to DNR rules and applied via dynamic rules.
- * 2. Cosmetic rules – interpreted directly in the extension code.
- * 3. Scriptlet and JS rules – executed via the browser's userScripts API (userScripts.execute)
- *    with Chrome's native sandboxing providing security isolation.
- *
- * For regular users without User scripts API permission (default case):
- * - Only pre-bundled filters with statically verified scripts are supported.
- * - Downloading custom filters or any rules from remote sources is blocked entirely
- *   to ensure compliance with the store policies.
- *
- * This implementation ensures perfect compliance with Chrome Web Store policies
- * by preventing any possibility of remote code execution for regular users.
- *
- * It is possible to follow all places using this logic by searching JS_RULES_EXECUTION.
+ * Below is the file with all the registered scripts that can be executed.
  */
 export const localScriptRules = {
     '(function(){var a=document.currentScript,b=String.prototype.charCodeAt,c=function(){return true;};Object.defineProperty(String.prototype,"charCodeAt",{get:function(){return document.currentScript===a?b:c},set:function(a){}})})();': () => {
@@ -1790,6 +1760,36 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "c3fa9bec7cb9559b8965f87071a37fc6" due to: ' + e);
         }
     },
+    "(()=>{let t,e=!1;const o=new MutationObserver(((e,o)=>{const c=t?.querySelector('button#accept');c&&(c.click(),o.disconnect())})),c={apply:(c,n,p)=>{const r=Reflect.apply(c,n,p);return!e&&n.matches(\"#usercentrics-cmp-ui\")&&(e=!0,t=r),o.observe(r,{subtree:!0,childList:!0}),r}};window.Element.prototype.attachShadow=new Proxy(window.Element.prototype.attachShadow,c)})();": () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.c357ef7f6286b9d1497dd27602788dfe === e) return;
+            (() => {
+                let e, t = !1;
+                const o = new MutationObserver(((t, o) => {
+                    const r = e?.querySelector("button#accept");
+                    r && (r.click(), o.disconnect());
+                })), r = {
+                    apply: (r, c, n) => {
+                        const d = Reflect.apply(r, c, n);
+                        return !t && c.matches("#usercentrics-cmp-ui") && (t = !0, e = d), o.observe(d, {
+                            subtree: !0,
+                            childList: !0
+                        }), d;
+                    }
+                };
+                window.Element.prototype.attachShadow = new Proxy(window.Element.prototype.attachShadow, r);
+            })();
+            Object.defineProperty(Window.prototype.toString, "c357ef7f6286b9d1497dd27602788dfe", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "c357ef7f6286b9d1497dd27602788dfe" due to: ' + e);
+        }
+    },
     '(()=>{let t,e=!1;const o=new MutationObserver(((e,o)=>{const c=t?.querySelector("#cmpbox a.cmptxt_btn_yes");c&&(c.click(),o.disconnect())})),c={apply:(c,n,p)=>{const r=Reflect.apply(c,n,p);return!e&&n.matches("#cmpwrapper")&&(e=!0,t=r),o.observe(r,{subtree:!0,childList:!0}),r}};window.Element.prototype.attachShadow=new Proxy(window.Element.prototype.attachShadow,c)})();': () => {
         try {
             const e = "done";
@@ -2208,6 +2208,26 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "7c9eb641391ed7a82e455b87f3672582" due to: ' + e);
         }
     },
+    "\"use strict\"; window.MutationObserver = new Proxy(window.MutationObserver, { construct(Target, Args) { let Stringified = Args[0].toString(); if (Stringified.includes('cs:') && Stringified.includes('gl:') && Stringified.includes('ne:') && Stringified.includes('dg:')) { return Reflect.construct(Target, [() => {}]); } return Reflect.construct(Target, Args); } });": () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.c287d35369268f7ace0d483cc8ca2199 === e) return;
+            window.MutationObserver = new Proxy(window.MutationObserver, {
+                construct(e, c) {
+                    let t = c[0].toString();
+                    return t.includes("cs:") && t.includes("gl:") && t.includes("ne:") && t.includes("dg:") ? Reflect.construct(e, [ () => {} ]) : Reflect.construct(e, c);
+                }
+            });
+            Object.defineProperty(Window.prototype.toString, "c287d35369268f7ace0d483cc8ca2199", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "c287d35369268f7ace0d483cc8ca2199" due to: ' + e);
+        }
+    },
     "\"use strict\"; window.Function.prototype.apply = new Proxy(window.Function.prototype.apply, { apply(Target, ThisArg, Args) { let FunctionContext = ThisArg.toString(); if (FunctionContext.includes('veta') && FunctionContext.includes('http') && FunctionContext.includes('/gfp/') && FunctionContext.includes('().mark((')) { return Reflect.apply(Target, async () => false, []); } return Reflect.apply(Target, ThisArg, Args); } });": () => {
         try {
             const e = "done";
@@ -2548,32 +2568,6 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "22514194ad8441cc56e68716b1f75f69" due to: ' + e);
         }
     },
-    '(()=>{window.addEventListener("load",(()=>{setTimeout((()=>{if(!document.querySelector(".plyr--video video"))for(const o in window)if("function"==typeof window[o]&&window[o].toString().includes("Hls.isSupported")){try{window[o]()}catch(e){console.stack(`Error occurred while calling ${o}:`,e)}break}}),1e3)}));})();': () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString.fc7e03df62426e566b625183c2be9408 === e) return;
-            window.addEventListener("load", (() => {
-                setTimeout((() => {
-                    if (!document.querySelector(".plyr--video video")) for (const e in window) if ("function" == typeof window[e] && window[e].toString().includes("Hls.isSupported")) {
-                        try {
-                            window[e]();
-                        } catch (o) {
-                            console.stack(`Error occurred while calling ${e}:`, o);
-                        }
-                        break;
-                    }
-                }), 1e3);
-            }));
-            Object.defineProperty(Window.prototype.toString, "fc7e03df62426e566b625183c2be9408", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "fc7e03df62426e566b625183c2be9408" due to: ' + e);
-        }
-    },
     '(()=>{window.GADS={init:function(n){n&&"function"==typeof n.onFinish&&n.onFinish()}};})();': () => {
         try {
             const e = "done";
@@ -2591,35 +2585,6 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "c2ffc94b6ce8e97f2c432d64690cfc9d" due to: ' + e);
-        }
-    },
-    '(()=>{const e={apply:(e,o,t)=>(null===t[0]&&(t[0]={isUserSubscriber:!0}),Reflect.apply(e,o,t))},o={apply:(o,t,n)=>{const r=n[0];return"function"==typeof r&&r.toString().includes("AdBlockDetector")&&(n[0]=()=>{}),"function"==typeof r&&r.toString().includes("Preroll Ad")&&(n[0]=new Proxy(n[0],e)),Reflect.apply(o,t,n)}};window.Promise.prototype.then=new Proxy(window.Promise.prototype.then,o)})();': () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString["785fddde2c2648fbf7b3c872780aab8f"] === e) return;
-            (() => {
-                const e = {
-                    apply: (e, t, o) => (null === o[0] && (o[0] = {
-                        isUserSubscriber: !0
-                    }), Reflect.apply(e, t, o))
-                }, t = {
-                    apply: (t, o, r) => {
-                        const n = r[0];
-                        return "function" == typeof n && n.toString().includes("AdBlockDetector") && (r[0] = () => {}),
-                        "function" == typeof n && n.toString().includes("Preroll Ad") && (r[0] = new Proxy(r[0], e)),
-                        Reflect.apply(t, o, r);
-                    }
-                };
-                window.Promise.prototype.then = new Proxy(window.Promise.prototype.then, t);
-            })();
-            Object.defineProperty(Window.prototype.toString, "785fddde2c2648fbf7b3c872780aab8f", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "785fddde2c2648fbf7b3c872780aab8f" due to: ' + e);
         }
     },
     '(()=>{const a=function(a){"function"==typeof a&&a()};window.aiptag={adplayer:"",cmd:[]},window.aiptag.cmd.player=[],window.aiptag.cmd.display=[],window.aiptag.cmd.push=a,window.aiptag.cmd.player.push=a,window.aiptag.cmd.display.push=a,window.aipDisplayTag={display:function(){}},window.aipPlayer=function(a){a&&a.AIP_COMPLETE&&(this.startPreRoll=a.AIP_COMPLETE)}})();': () => {
@@ -2672,34 +2637,6 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "36fd3167269f896e4009a009ae54edb3" due to: ' + e);
-        }
-    },
-    '(()=>{document.addEventListener(\'DOMContentLoaded\',()=>{const t=document.querySelector(\'a[href*="uploadmall.com/cgi-bin/dl.cgi/"]\');if(t){const e=t.getAttribute("href");t.addEventListener("click",(t=>{try{const t=`{"link":"${e}"}`,c=`https://mendationforc.info/?cc=${btoa(t)}`;window.open(c)}catch(t){console.debug(t)}}))}})})();': () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString["0c91eaeaf0d6e2a52ab9be668bbd08a5"] === e) return;
-            document.addEventListener("DOMContentLoaded", (() => {
-                const e = document.querySelector('a[href*="uploadmall.com/cgi-bin/dl.cgi/"]');
-                if (e) {
-                    const t = e.getAttribute("href");
-                    e.addEventListener("click", (e => {
-                        try {
-                            const e = `{"link":"${t}"}`, o = `https://mendationforc.info/?cc=${btoa(e)}`;
-                            window.open(o);
-                        } catch (e) {
-                            console.debug(e);
-                        }
-                    }));
-                }
-            }));
-            Object.defineProperty(Window.prototype.toString, "0c91eaeaf0d6e2a52ab9be668bbd08a5", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "0c91eaeaf0d6e2a52ab9be668bbd08a5" due to: ' + e);
         }
     },
     '(()=>{let e;const t={apply:(t,n,o)=>(o[0]?.behavior?.controlType&&o[0]?.initialItems&&"function"==typeof o[0].update&&(e=o[0].update,o[0].update=function(){this.update=e}),Reflect.apply(t,n,o))};window.Object.keys=new Proxy(window.Object.keys,t)})();': () => {
@@ -3353,6 +3290,35 @@ export const localScriptRules = {
             });
         } catch (a) {
             console.error('Error executing AG js rule with uniqueId "802366024dd441867900263826a1b687" due to: ' + a);
+        }
+    },
+    '(()=>{const e={apply:(e,o,t)=>(null===t[0]&&(t[0]={isUserSubscriber:!0}),Reflect.apply(e,o,t))},o={apply:(o,t,n)=>{const r=n[0];return"function"==typeof r&&r.toString().includes("AdBlockDetector")&&(n[0]=()=>{}),"function"==typeof r&&r.toString().includes("Preroll Ad")&&(n[0]=new Proxy(n[0],e)),Reflect.apply(o,t,n)}};window.Promise.prototype.then=new Proxy(window.Promise.prototype.then,o)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString["785fddde2c2648fbf7b3c872780aab8f"] === e) return;
+            (() => {
+                const e = {
+                    apply: (e, t, o) => (null === o[0] && (o[0] = {
+                        isUserSubscriber: !0
+                    }), Reflect.apply(e, t, o))
+                }, t = {
+                    apply: (t, o, r) => {
+                        const n = r[0];
+                        return "function" == typeof n && n.toString().includes("AdBlockDetector") && (r[0] = () => {}),
+                        "function" == typeof n && n.toString().includes("Preroll Ad") && (r[0] = new Proxy(r[0], e)),
+                        Reflect.apply(t, o, r);
+                    }
+                };
+                window.Promise.prototype.then = new Proxy(window.Promise.prototype.then, t);
+            })();
+            Object.defineProperty(Window.prototype.toString, "785fddde2c2648fbf7b3c872780aab8f", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "785fddde2c2648fbf7b3c872780aab8f" due to: ' + e);
         }
     },
     "window.adsbygoogle = { loaded: !0 };": () => {
@@ -4270,28 +4236,28 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "f5e04b1e897644b8741f5724e8210233" due to: ' + e);
         }
     },
-    '(()=>{Object.defineProperty=new Proxy(Object.defineProperty,{apply:(e,t,n)=>{const r=new Set(["VP","w3","JW"]),o=n[1],c=n[2]?.get;return o&&r.has(o)&&"function"==typeof c&&c.toString().includes("()=>i")&&(n[2].get=function(){return function(){return!1}}),Reflect.apply(e,t,n)}});})();': () => {
+    '(()=>{Object.defineProperty=new Proxy(Object.defineProperty,{apply:(e,t,n)=>{const r=new Set(["VP","w3","JW"]),o=n[1],c=n[2]?.get;return o&&r.has(o)&&"function"==typeof c&&/^\\(\\)=>.$/.test(c.toString())&&(n[2].get=function(){return function(){return!1}}),Reflect.apply(e,t,n)}});})();': () => {
         try {
             const e = "done";
-            if (Window.prototype.toString.d2e0c1a15c46cd17c61c4bb3e9ed07ff === e) return;
+            if (Window.prototype.toString["78efcafe6d31d29f2e5224aca115d0e2"] === e) return;
             Object.defineProperty = new Proxy(Object.defineProperty, {
                 apply: (e, t, r) => {
-                    const c = new Set([ "VP", "w3", "JW" ]), n = r[1], o = r[2]?.get;
-                    return n && c.has(n) && "function" == typeof o && o.toString().includes("()=>i") && (r[2].get = function() {
+                    const n = new Set([ "VP", "w3", "JW" ]), o = r[1], c = r[2]?.get;
+                    return o && n.has(o) && "function" == typeof c && /^\(\)=>.$/.test(c.toString()) && (r[2].get = function() {
                         return function() {
                             return !1;
                         };
                     }), Reflect.apply(e, t, r);
                 }
             });
-            Object.defineProperty(Window.prototype.toString, "d2e0c1a15c46cd17c61c4bb3e9ed07ff", {
+            Object.defineProperty(Window.prototype.toString, "78efcafe6d31d29f2e5224aca115d0e2", {
                 value: e,
                 enumerable: !1,
                 writable: !1,
                 configurable: !1
             });
         } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "d2e0c1a15c46cd17c61c4bb3e9ed07ff" due to: ' + e);
+            console.error('Error executing AG js rule with uniqueId "78efcafe6d31d29f2e5224aca115d0e2" due to: ' + e);
         }
     },
     "window.showAds = true;": () => {
@@ -4507,6 +4473,23 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "14b2658c5d58ff999b0f841402be6327" due to: ' + e);
         }
     },
+    '(()=>{window.addEventListener("load",(()=>{"object"==typeof window.player&&"function"==typeof window.player.trigger&&window.player.trigger("playlistComplete")}));})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString["777ecb0cee36adcb947f146ce7e592d2"] === e) return;
+            window.addEventListener("load", (() => {
+                "object" == typeof window.player && "function" == typeof window.player.trigger && window.player.trigger("playlistComplete");
+            }));
+            Object.defineProperty(Window.prototype.toString, "777ecb0cee36adcb947f146ce7e592d2", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "777ecb0cee36adcb947f146ce7e592d2" due to: ' + e);
+        }
+    },
     '!function(){if(location.pathname.includes("/source/playerads")){var b=new MutationObserver(function(){var a=document.querySelector(\'script[type="text/javascript"]\');a&&a.textContent.includes(\'"ads": [\')&&(b.disconnect(),a.textContent=a.textContent.replace(/("ads": \\[\\{)[\\s\\S]*?(\\}\\])/,"$1$2"))});b.observe(document,{childList:!0,subtree:!0})}}();': () => {
         try {
             const e = "done";
@@ -4617,6 +4600,36 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "6c5874d9ea24235e4a8490028ce09e66" due to: ' + e);
+        }
+    },
+    '(()=>{let e=!1;const l={apply:async(e,l,o)=>{const r=o[0];return!1===r?.rewardAllowed&&(o[0].rewardAllowed=!0),Reflect.apply(e,l,o)}},o={apply:(o,r,t)=>{const n=t[0]?.pokiAdsCompleted;return!e&&n&&n[0]?.toString()?.includes("rewardAllowed")&&(n[0]=new Proxy(n[0],l),e=!0),Reflect.apply(o,r,t)}};window.Object.keys=new Proxy(window.Object.keys,o)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString["85cbf457d7f9be26230706564eebecbe"] === e) return;
+            (() => {
+                let e = !1;
+                const r = {
+                    apply: async (e, r, t) => {
+                        const o = t[0];
+                        return !1 === o?.rewardAllowed && (t[0].rewardAllowed = !0), Reflect.apply(e, r, t);
+                    }
+                }, t = {
+                    apply: (t, o, n) => {
+                        const c = n[0]?.pokiAdsCompleted;
+                        return !e && c && c[0]?.toString()?.includes("rewardAllowed") && (c[0] = new Proxy(c[0], r),
+                        e = !0), Reflect.apply(t, o, n);
+                    }
+                };
+                window.Object.keys = new Proxy(window.Object.keys, t);
+            })();
+            Object.defineProperty(Window.prototype.toString, "85cbf457d7f9be26230706564eebecbe", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "85cbf457d7f9be26230706564eebecbe" due to: ' + e);
         }
     },
     '(()=>{window.Pogo=window.Pogo||{},window.Pogo.cmd=[],window.Pogo.cmd.push=o=>{"function"==typeof o&&o()},window.Pogo.getVideoTag=(o,w)=>{w&&"function"==typeof w&&w()};})();': () => {
@@ -6793,6 +6806,40 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "9201edecacad19e52ef0fb416ec8c902" due to: ' + e);
         }
     },
+    '(()=>{const e={apply:(e,t,r)=>{try{if(r[2]?.[0]&&r[2][0]?.includes?.("MarketplaceFeedAdStory")){const e=r[2][0],t=e.split(/\\r?\\n|\\r/).map((e=>JSON.parse(e)));t.forEach((e=>{e.data?.viewer?.marketplace_feed_stories?.edges&&(e.data.viewer.marketplace_feed_stories.edges=e.data.viewer.marketplace_feed_stories.edges.filter((e=>!e.node?.__typename?.includes("MarketplaceFeedAdStory"))))}));const a=t.map((e=>JSON.stringify(e))).join("\\r\\n");r[2][0]=a}return Reflect.apply(e,t,r)}catch(a){return console.trace(a),Reflect.apply(e,t,r)}}};window.Function.prototype.call=new Proxy(window.Function.prototype.call,e)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString["62b1f9c5122ff0789e03ede3f535bab1"] === e) return;
+            (() => {
+                const e = {
+                    apply: (e, t, r) => {
+                        try {
+                            if (r[2]?.[0] && r[2][0]?.includes?.("MarketplaceFeedAdStory")) {
+                                const e = r[2][0].split(/\r?\n|\r/).map((e => JSON.parse(e)));
+                                e.forEach((e => {
+                                    e.data?.viewer?.marketplace_feed_stories?.edges && (e.data.viewer.marketplace_feed_stories.edges = e.data.viewer.marketplace_feed_stories.edges.filter((e => !e.node?.__typename?.includes("MarketplaceFeedAdStory"))));
+                                }));
+                                const t = e.map((e => JSON.stringify(e))).join("\r\n");
+                                r[2][0] = t;
+                            }
+                            return Reflect.apply(e, t, r);
+                        } catch (o) {
+                            return console.trace(o), Reflect.apply(e, t, r);
+                        }
+                    }
+                };
+                window.Function.prototype.call = new Proxy(window.Function.prototype.call, e);
+            })();
+            Object.defineProperty(Window.prototype.toString, "62b1f9c5122ff0789e03ede3f535bab1", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "62b1f9c5122ff0789e03ede3f535bab1" due to: ' + e);
+        }
+    },
     '!function(){if(window.location.href.includes("/marketplace/")){new MutationObserver(function(){document.querySelectorAll(\'div[data-testid="marketplace_home_feed"] div[class][data-testid^="MarketplaceUpsell-"] > div > div\').forEach(function(e){var t=e.outerHTML;t&&void 0!==t&&!0===t.includes("/ads/about/")&&(e.style="display:none!important;")})}).observe(document,{childList:!0,subtree:!0})}}();': () => {
         try {
             const e = "done";
@@ -7184,6 +7231,30 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "5662f0dae824e1b38f13e27f256c2066" due to: ' + e);
         }
     },
+    '(()=>{const t={apply:(t,o,n)=>{const e=n[0];return"function"==typeof e&&e.toString().includes("onAbnormalityDetected")&&(n[0]=function(){}),Reflect.apply(t,o,n)}};window.Promise.prototype.then=new Proxy(window.Promise.prototype.then,t)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.b149f5f8f73c8f7b2b21d20e1538bea4 === e) return;
+            (() => {
+                const e = {
+                    apply: (e, t, o) => {
+                        const n = o[0];
+                        return "function" == typeof n && n.toString().includes("onAbnormalityDetected") && (o[0] = function() {}),
+                        Reflect.apply(e, t, o);
+                    }
+                };
+                window.Promise.prototype.then = new Proxy(window.Promise.prototype.then, e);
+            })();
+            Object.defineProperty(Window.prototype.toString, "b149f5f8f73c8f7b2b21d20e1538bea4", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "b149f5f8f73c8f7b2b21d20e1538bea4" due to: ' + e);
+        }
+    },
     '(()=>{const e={apply:(e,t,n)=>{const o=Reflect.apply(e,t,n);try{o instanceof HTMLIFrameElement&&"about:blank"===o.src&&o.contentWindow&&(o.contentWindow.fetch=window.fetch,o.contentWindow.Request=window.Request)}catch(e){}return o}};Node.prototype.appendChild=new Proxy(Node.prototype.appendChild,e)})();': () => {
         try {
             const e = "done";
@@ -7211,57 +7282,39 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "b2938935474adeb9fa9f991bc00ad666" due to: ' + e);
         }
     },
-    '(()=>{const t={apply:(t,o,n)=>{const e=n[0];return"function"==typeof e&&e.toString().includes("onAbnormalityDetected")&&(n[0]=function(){}),Reflect.apply(t,o,n)}};window.Promise.prototype.then=new Proxy(window.Promise.prototype.then,t)})();': () => {
+    '(()=>{const e={construct:(e,t,c)=>{try{const n=t[0];let r=t[1]?.body;if(!n?.includes("youtubei")||!r)return Reflect.construct(e,t,c);if(r.includes(\'"clientScreen":"WATCH"\'))console.log("Intercepted YouTube request:",n),t[1].body=r.replace(\'"clientScreen":"WATCH"\',\'"clientScreen":"ADUNIT"\');else{const n=JSON.parse(r);if(!n.context?.client)return Reflect.construct(e,t,c);n.context.client.clientScreen="ADUNIT",r=JSON.stringify(n),t[1].body=r}}catch(e){console.trace("Error occurred:",e)}return Reflect.construct(e,t,c)}};window.Request=new Proxy(window.Request,e)})();': () => {
         try {
             const e = "done";
-            if (Window.prototype.toString.b149f5f8f73c8f7b2b21d20e1538bea4 === e) return;
+            if (Window.prototype.toString.f38f2760831f57f8aadc441440d810f0 === e) return;
             (() => {
                 const e = {
-                    apply: (e, t, o) => {
-                        const n = o[0];
-                        return "function" == typeof n && n.toString().includes("onAbnormalityDetected") && (o[0] = function() {}),
-                        Reflect.apply(e, t, o);
-                    }
-                };
-                window.Promise.prototype.then = new Proxy(window.Promise.prototype.then, e);
-            })();
-            Object.defineProperty(Window.prototype.toString, "b149f5f8f73c8f7b2b21d20e1538bea4", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "b149f5f8f73c8f7b2b21d20e1538bea4" due to: ' + e);
-        }
-    },
-    '(()=>{if(Object.getOwnPropertyDescriptor(window.JSON,"stringify").writable)return;const e={construct:(e,c,r)=>{try{const e=c[0],r=c[1]?.body;e?.includes("youtubei")&&r?.includes(\'"clientScreen":"WATCH"\')&&(c[1].body=r.replace(\'"clientScreen":"WATCH"\',\'"clientScreen":"ADUNIT"\'))}catch(e){console.trace("Error occurred:",e)}return Reflect.construct(e,c,r)}};window.Request=new Proxy(window.Request,e)})();': () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString["91f888c248ca41605ecc865ebb74a447"] === e) return;
-            (() => {
-                if (Object.getOwnPropertyDescriptor(window.JSON, "stringify").writable) return;
-                const e = {
-                    construct: (e, c, r) => {
+                    construct: (e, t, c) => {
                         try {
-                            const e = c[0], r = c[1]?.body;
-                            e?.includes("youtubei") && r?.includes('"clientScreen":"WATCH"') && (c[1].body = r.replace('"clientScreen":"WATCH"', '"clientScreen":"ADUNIT"'));
+                            const r = t[0];
+                            let n = t[1]?.body;
+                            if (!r?.includes("youtubei") || !n) return Reflect.construct(e, t, c);
+                            if (n.includes('"clientScreen":"WATCH"')) console.log("Intercepted YouTube request:", r),
+                            t[1].body = n.replace('"clientScreen":"WATCH"', '"clientScreen":"ADUNIT"'); else {
+                                const r = JSON.parse(n);
+                                if (!r.context?.client) return Reflect.construct(e, t, c);
+                                r.context.client.clientScreen = "ADUNIT", n = JSON.stringify(r), t[1].body = n;
+                            }
                         } catch (e) {
                             console.trace("Error occurred:", e);
                         }
-                        return Reflect.construct(e, c, r);
+                        return Reflect.construct(e, t, c);
                     }
                 };
                 window.Request = new Proxy(window.Request, e);
             })();
-            Object.defineProperty(Window.prototype.toString, "91f888c248ca41605ecc865ebb74a447", {
+            Object.defineProperty(Window.prototype.toString, "f38f2760831f57f8aadc441440d810f0", {
                 value: e,
                 enumerable: !1,
                 writable: !1,
                 configurable: !1
             });
         } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "91f888c248ca41605ecc865ebb74a447" due to: ' + e);
+            console.error('Error executing AG js rule with uniqueId "f38f2760831f57f8aadc441440d810f0" due to: ' + e);
         }
     },
     '(()=>{let t=document.location.href,e=[],n=[],o="",r=!1;const i=Array.prototype.push,a={apply:(t,o,a)=>(window.yt?.config_?.EXPERIMENT_FLAGS?.html5_enable_ssap_entity_id&&a[0]&&a[0]!==window&&"number"==typeof a[0].start&&a[0].end&&"ssap"===a[0].namespace&&a[0].id&&(r||0!==a[0]?.start||n.includes(a[0].id)||(e.length=0,n.length=0,r=!0,i.call(e,a[0]),i.call(n,a[0].id)),r&&0!==a[0]?.start&&!n.includes(a[0].id)&&(i.call(e,a[0]),i.call(n,a[0].id))),Reflect.apply(t,o,a))};window.Array.prototype.push=new Proxy(window.Array.prototype.push,a),document.addEventListener("DOMContentLoaded",(function(){if(!window.yt?.config_?.EXPERIMENT_FLAGS?.html5_enable_ssap_entity_id)return;const i=()=>{const t=document.querySelector("video");if(t&&e.length){const i=Math.round(t.duration),a=Math.round(e.at(-1).end/1e3),c=n.join(",");if(!1===t.loop&&o!==c&&i&&i===a){const n=e.at(-1).start/1e3;t.currentTime<n&&(t.currentTime=n,r=!1,o=c)}else if(!0===t.loop&&i&&i===a){const n=e.at(-1).start/1e3;t.currentTime<n&&(t.currentTime=n,r=!1,o=c)}}};i();new MutationObserver((()=>{t!==document.location.href&&(t=document.location.href,e.length=0,n.length=0,r=!1),i()})).observe(document,{childList:!0,subtree:!0})}))})();': () => {
@@ -7352,6 +7405,32 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "2e6eacfae44118fb1fa0397d0470917e" due to: ' + e);
+        }
+    },
+    '(()=>{const e={apply:async(n,o,t)=>(t[0]?.toString?.().includes("function () { [native code] }")&&(t[0]=new Proxy(t[0],e)),"object"==typeof t[0]&&t[0].linearAdBreaks&&(t[0].linearAdBreaks=[]),Reflect.apply(n,o,t))},n={construct:(n,o,t)=>{const r=o[0],c=r?.toString(),i=c?.includes("ad breaks");return i&&(o[0]=new Proxy(r,e)),Reflect.construct(n,o,t)}};window.Promise=new Proxy(window.Promise,n)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.f9fdd7bf50948a3a4434700b9afa2851 === e) return;
+            (() => {
+                const e = {
+                    apply: async (r, t, o) => (o[0]?.toString?.().includes("function () { [native code] }") && (o[0] = new Proxy(o[0], e)),
+                    "object" == typeof o[0] && o[0].linearAdBreaks && (o[0].linearAdBreaks = []), Reflect.apply(r, t, o))
+                }, r = {
+                    construct: (r, t, o) => {
+                        const n = t[0], a = n?.toString(), i = a?.includes("ad breaks");
+                        return i && (t[0] = new Proxy(n, e)), Reflect.construct(r, t, o);
+                    }
+                };
+                window.Promise = new Proxy(window.Promise, r);
+            })();
+            Object.defineProperty(Window.prototype.toString, "f9fdd7bf50948a3a4434700b9afa2851", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "f9fdd7bf50948a3a4434700b9afa2851" due to: ' + e);
         }
     },
     '(()=>{document.addEventListener("DOMContentLoaded",(()=>{document.querySelectorAll(\'a[href^="https://af.gog.com/game/"]\').forEach((t=>{const e=t.getAttribute("href").replace("https://af.gog.com/","https://www.gog.com/");t.setAttribute("href",e)}))}));})();': () => {
@@ -7532,44 +7611,44 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "4a9a4c88d375de003f5ff00b3d926a2e" due to: ' + e);
         }
     },
-    '(()=>{var b=EventTarget.prototype.addEventListener,c=function(a,b){var c=document.querySelector("button.AppHeader-login");c&&b.bind(c)("click",function(){d.disconnect()},{once:!0})},d=new MutationObserver(function(){var a=document.querySelector(".Modal-wrapper .signFlowModal > .Modal-closeButton");a&&(d.disconnect(),e.disconnect(),a.click())});d.observe(document,{childList:!0,subtree:!0});var e=new MutationObserver(a=>{c(a,b)});e.observe(document,{childList:!0,subtree:!0}),setTimeout(function(){e.disconnect(),d.disconnect()},5E3)})();': () => {
+    '(()=>{var b=EventTarget.prototype.addEventListener,c=function(a,b){var c=document.querySelector("button.AppHeader-login, .AppHeader-userInfo > .AppHeader-profile > div > button.Button--blue");c&&b.bind(c)("click",function(){d.disconnect()},{once:!0})},d=new MutationObserver(function(){var a=document.querySelector(".Modal-wrapper .signFlowModal > .Modal-closeButton");a&&(d.disconnect(),e.disconnect(),a.click())});d.observe(document,{childList:!0,subtree:!0});var e=new MutationObserver(a=>{c(a,b)});e.observe(document,{childList:!0,subtree:!0}),setTimeout(function(){e.disconnect(),d.disconnect()},5E3)})();': () => {
         try {
             const e = "done";
-            if (Window.prototype.toString["41bf8021e5a5f51b455d8d18dce0c4d0"] === e) return;
+            if (Window.prototype.toString.f8538b151cd703002da3f4fc86771de0 === e) return;
             (() => {
                 var e = EventTarget.prototype.addEventListener, t = new MutationObserver((function() {
                     var e = document.querySelector(".Modal-wrapper .signFlowModal > .Modal-closeButton");
-                    e && (t.disconnect(), n.disconnect(), e.click());
+                    e && (t.disconnect(), o.disconnect(), e.click());
                 }));
                 t.observe(document, {
                     childList: !0,
                     subtree: !0
                 });
-                var n = new MutationObserver((n => {
-                    !function(e, n) {
-                        var o = document.querySelector("button.AppHeader-login");
-                        o && n.bind(o)("click", (function() {
+                var o = new MutationObserver((o => {
+                    !function(e, o) {
+                        var n = document.querySelector("button.AppHeader-login, .AppHeader-userInfo > .AppHeader-profile > div > button.Button--blue");
+                        n && o.bind(n)("click", (function() {
                             t.disconnect();
                         }), {
                             once: !0
                         });
                     }(0, e);
                 }));
-                n.observe(document, {
+                o.observe(document, {
                     childList: !0,
                     subtree: !0
                 }), setTimeout((function() {
-                    n.disconnect(), t.disconnect();
+                    o.disconnect(), t.disconnect();
                 }), 5e3);
             })();
-            Object.defineProperty(Window.prototype.toString, "41bf8021e5a5f51b455d8d18dce0c4d0", {
+            Object.defineProperty(Window.prototype.toString, "f8538b151cd703002da3f4fc86771de0", {
                 value: e,
                 enumerable: !1,
                 writable: !1,
                 configurable: !1
             });
         } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "41bf8021e5a5f51b455d8d18dce0c4d0" due to: ' + e);
+            console.error('Error executing AG js rule with uniqueId "f8538b151cd703002da3f4fc86771de0" due to: ' + e);
         }
     },
     '(function(){if(!document.cookie.includes("zip_and_city=")){var a=encodeURIComponent(\'{"zip":"","city":""}\');document.cookie="zip_and_city="+a+"; path=/;"}})();': () => {
@@ -7893,78 +7972,6 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "7d835d508a44fa6f33710266eee3a2c3" due to: ' + e);
-        }
-    },
-    '(async()=>{if(location.href.includes("?slid="))try{const t=new URLSearchParams(location.search).get("slid");if(!t||!t.length)return;const a=await fetch(`https://hotmediahub.com/shorturl/getoriginurl?&surl_key=${t}`),i=await a.json();i?.data?.origin_url&&i.data.origin_url.startsWith("http")&&location.assign(i.data.origin_url)}catch(t){console.debug(t)}})();': () => {
-        try {
-            const t = "done";
-            if (Window.prototype.toString["4563128700b6c48955f528992fe0d2f6"] === t) return;
-            (async () => {
-                if (location.href.includes("?slid=")) try {
-                    const t = new URLSearchParams(location.search).get("slid");
-                    if (!t || !t.length) return;
-                    const e = await fetch(`https://hotmediahub.com/shorturl/getoriginurl?&surl_key=${t}`), r = await e.json();
-                    r?.data?.origin_url && r.data.origin_url.startsWith("http") && location.assign(r.data.origin_url);
-                } catch (t) {
-                    console.debug(t);
-                }
-            })();
-            Object.defineProperty(Window.prototype.toString, "4563128700b6c48955f528992fe0d2f6", {
-                value: t,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (t) {
-            console.error('Error executing AG js rule with uniqueId "4563128700b6c48955f528992fe0d2f6" due to: ' + t);
-        }
-    },
-    '(async()=>{if(location.href.includes("/slmiddlepage/"))try{const t=location.href.split("/").at(-1);if(!t.length)return;const a=await fetch(`https://terabox.fun/api/shortlink/getoriginurl?&encrypt_surl_key=${t}`),i=await a.json();i?.data?.origin_url&&i.data.origin_url.startsWith("http")&&location.assign(i.data.origin_url)}catch(t){console.debug(t)}})();': () => {
-        try {
-            const t = "done";
-            if (Window.prototype.toString["0e073ac7dd901115bdce2b79ff3dfb14"] === t) return;
-            (async () => {
-                if (location.href.includes("/slmiddlepage/")) try {
-                    const t = location.href.split("/").at(-1);
-                    if (!t.length) return;
-                    const e = await fetch(`https://terabox.fun/api/shortlink/getoriginurl?&encrypt_surl_key=${t}`), r = await e.json();
-                    r?.data?.origin_url && r.data.origin_url.startsWith("http") && location.assign(r.data.origin_url);
-                } catch (t) {
-                    console.debug(t);
-                }
-            })();
-            Object.defineProperty(Window.prototype.toString, "0e073ac7dd901115bdce2b79ff3dfb14", {
-                value: t,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (t) {
-            console.error('Error executing AG js rule with uniqueId "0e073ac7dd901115bdce2b79ff3dfb14" due to: ' + t);
-        }
-    },
-    '(async()=>{if(location.href.includes("/sl/"))try{const t=location.href.split("/").at(-1);if(!t.length)return;const a=await fetch(`https://terabox.fun/shorturl/getoriginurl?&surl_key=${t}`),i=await a.json();i?.data?.origin_url&&i.data.origin_url.startsWith("http")&&location.assign(i.data.origin_url)}catch(t){console.debug(t)}})();': () => {
-        try {
-            const t = "done";
-            if (Window.prototype.toString.c902dd6dcc6d8edbd75819fe5a8c796f === t) return;
-            (async () => {
-                if (location.href.includes("/sl/")) try {
-                    const t = location.href.split("/").at(-1);
-                    if (!t.length) return;
-                    const e = await fetch(`https://terabox.fun/shorturl/getoriginurl?&surl_key=${t}`), r = await e.json();
-                    r?.data?.origin_url && r.data.origin_url.startsWith("http") && location.assign(r.data.origin_url);
-                } catch (t) {
-                    console.debug(t);
-                }
-            })();
-            Object.defineProperty(Window.prototype.toString, "c902dd6dcc6d8edbd75819fe5a8c796f", {
-                value: t,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (t) {
-            console.error('Error executing AG js rule with uniqueId "c902dd6dcc6d8edbd75819fe5a8c796f" due to: ' + t);
         }
     },
     '(function(){try{var a=location.href.split("/#");if(a[1]){a=a[1];for(var b=0;10>b;b++){a=atob(a);try{new URL(decodeURIComponent(a));var c=!0}catch(d){c=!1}if(c)try{location.assign(decodeURIComponent(a));break}catch(d){}}}}catch(d){}})();': () => {
@@ -9031,26 +9038,6 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "2c65b37bc179c213f5741f032fbc81bd" due to: ' + e);
         }
     },
-    "(function(){var b=window.setTimeout;window.setTimeout=function(a,c){if(!/myaaqqbpfun12\\(\\)/.test(a.toString()))return b(a,c)};})();": () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString.d0fc82b069eb2ac72f8e46e7308e2540 === e) return;
-            !function() {
-                var e = window.setTimeout;
-                window.setTimeout = function(t, o) {
-                    if (!/myaaqqbpfun12\(\)/.test(t.toString())) return e(t, o);
-                };
-            }();
-            Object.defineProperty(Window.prototype.toString, "d0fc82b069eb2ac72f8e46e7308e2540", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "d0fc82b069eb2ac72f8e46e7308e2540" due to: ' + e);
-        }
-    },
     "window.ad = window.ads = window.dzad = window.dzads = true;": () => {
         try {
             const e = "done";
@@ -9681,6 +9668,112 @@ export const localScriptRules = {
             console.error('Error executing AG js rule with uniqueId "14a0dfcfc56570b45c7aa35014affd67" due to: ' + e);
         }
     },
+    '(()=>{const e={apply:(e,r,c)=>{try{let t=c[0];if(!t)return Reflect.apply(e,r,c);const n=Array.isArray(t)?"array":"string";if("array"===n&&(t=t[0]),t.includes(\'"clientScreen"\')&&!t.includes(\'"clientScreen":"ADUNIT"\'))switch(n){case"array":c[0][0]=t.replace(\'"clientScreen":"WATCH_FULL_SCREEN"\',\'"clientScreen":"ADUNIT"\');break;case"string":c[0]=t.replace(\'"clientScreen":"WATCH_FULL_SCREEN"\',\'"clientScreen":"ADUNIT"\')}}catch(e){console.trace("Error occurred:",e)}return Reflect.apply(e,r,c)}};window.XMLHttpRequest.prototype.send=new Proxy(window.XMLHttpRequest.prototype.send,e)})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.dc0c1c052ff85343f8f7dcc985fb01d1 === e) return;
+            (() => {
+                const e = {
+                    apply: (e, r, c) => {
+                        try {
+                            let t = c[0];
+                            if (!t) return Reflect.apply(e, r, c);
+                            const n = Array.isArray(t) ? "array" : "string";
+                            if ("array" === n && (t = t[0]), t.includes('"clientScreen"') && !t.includes('"clientScreen":"ADUNIT"')) switch (n) {
+                              case "array":
+                                c[0][0] = t.replace('"clientScreen":"WATCH_FULL_SCREEN"', '"clientScreen":"ADUNIT"');
+                                break;
+
+                              case "string":
+                                c[0] = t.replace('"clientScreen":"WATCH_FULL_SCREEN"', '"clientScreen":"ADUNIT"');
+                            }
+                        } catch (e) {
+                            console.trace("Error occurred:", e);
+                        }
+                        return Reflect.apply(e, r, c);
+                    }
+                };
+                window.XMLHttpRequest.prototype.send = new Proxy(window.XMLHttpRequest.prototype.send, e);
+            })();
+            Object.defineProperty(Window.prototype.toString, "dc0c1c052ff85343f8f7dcc985fb01d1", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "dc0c1c052ff85343f8f7dcc985fb01d1" due to: ' + e);
+        }
+    },
+    '(()=>{const e=Function.prototype.call;let t=!1,o=!1;const n={apply:(n,c,r)=>{const a=r[0];if(a?.requestNumber&&a?.snapshot)try{t=((e,t=5)=>{if("object"!=typeof e||null===e)return!1;const n=new Array(1e3);let c=0;const r=new WeakSet;for(n[c++]={obj:e,depth:0};c>0&&!o;){const{obj:e,depth:a}=n[--c];if(a>t||"object"!=typeof e||null===e||r.has(e))continue;let l;r.add(e);try{l=Object.hasOwn(e,"backoffTimeMs")}catch(e){console.trace("Error while checking for backoffTimeMs:",e)}if(l)return void 0!==e.backoffTimeMs||(o=!0,!1);for(const t in e)if(Object.hasOwn(e,t)){let o;try{o=e[t]}catch(e){console.trace("Error while accessing property:",e)}null!==o&&"object"==typeof o&&!r.has(o)&&c<n.length&&(n[c++]={obj:o,depth:a+1})}}return!1})(a),(t||o)&&(Function.prototype.call=e)}catch(e){console.trace("Error while checking for backoffTimeMs:",e)}return Reflect.apply(n,c,r)}};window.Function.prototype.call=new Proxy(window.Function.prototype.call,n),window.addEventListener("load",(()=>{if(!t)return void(Function.prototype.call=e);const o=document.querySelector(".html5-video-player"),n=window.location.search,c=new URLSearchParams(n).get("v"),r=new URLSearchParams(n).get("t")??0;if(!o||!c)return;const a=parseInt(r,10);o.loadVideoById(c,a)}))})();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString["0efe2c6870fcc8613710aec52bba2dca"] === e) return;
+            (() => {
+                const e = Function.prototype.call;
+                let t = !1, o = !1;
+                const c = {
+                    apply: (c, r, n) => {
+                        const a = n[0];
+                        if (a?.requestNumber && a?.snapshot) try {
+                            t = ((e, t = 5) => {
+                                if ("object" != typeof e || null === e) return !1;
+                                const c = new Array(1e3);
+                                let r = 0;
+                                const n = new WeakSet;
+                                for (c[r++] = {
+                                    obj: e,
+                                    depth: 0
+                                }; r > 0 && !o; ) {
+                                    const {obj: a, depth: i} = c[--r];
+                                    if (i > t || "object" != typeof a || null === a || n.has(a)) continue;
+                                    let l;
+                                    n.add(a);
+                                    try {
+                                        l = Object.hasOwn(a, "backoffTimeMs");
+                                    } catch (e) {
+                                        console.trace("Error while checking for backoffTimeMs:", e);
+                                    }
+                                    if (l) return void 0 !== a.backoffTimeMs || (o = !0, !1);
+                                    for (const t in a) if (Object.hasOwn(a, t)) {
+                                        let o;
+                                        try {
+                                            o = a[t];
+                                        } catch (e) {
+                                            console.trace("Error while accessing property:", e);
+                                        }
+                                        null !== o && "object" == typeof o && !n.has(o) && r < c.length && (c[r++] = {
+                                            obj: o,
+                                            depth: i + 1
+                                        });
+                                    }
+                                }
+                                return !1;
+                            })(a), (t || o) && (Function.prototype.call = e);
+                        } catch (e) {
+                            console.trace("Error while checking for backoffTimeMs:", e);
+                        }
+                        return Reflect.apply(c, r, n);
+                    }
+                };
+                window.Function.prototype.call = new Proxy(window.Function.prototype.call, c), window.addEventListener("load", (() => {
+                    if (!t) return void (Function.prototype.call = e);
+                    const o = document.querySelector(".html5-video-player"), c = window.location.search, r = new URLSearchParams(c).get("v"), n = new URLSearchParams(c).get("t") ?? 0;
+                    if (!o || !r) return;
+                    const a = parseInt(n, 10);
+                    o.loadVideoById(r, a);
+                }));
+            })();
+            Object.defineProperty(Window.prototype.toString, "0efe2c6870fcc8613710aec52bba2dca", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "0efe2c6870fcc8613710aec52bba2dca" due to: ' + e);
+        }
+    },
     "!function(){window.somtag={cmd:function(){}};}();": () => {
         try {
             const e = "done";
@@ -9922,24 +10015,6 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "c3123d07eda7051ae1561c7613cf6cd8" due to: ' + e);
-        }
-    },
-    'setTimeout(function(){var el = document.querySelector(".showitxt"); if(el) { el.innerHTML = el.innerHTML.replace("(Anzeige)",""); }},3000);': () => {
-        try {
-            const e = "done";
-            if (Window.prototype.toString["97deeafd5b9c8767a31890baf15c37ce"] === e) return;
-            setTimeout((function() {
-                var e = document.querySelector(".showitxt");
-                e && (e.innerHTML = e.innerHTML.replace("(Anzeige)", ""));
-            }), 3e3);
-            Object.defineProperty(Window.prototype.toString, "97deeafd5b9c8767a31890baf15c37ce", {
-                value: e,
-                enumerable: !1,
-                writable: !1,
-                configurable: !1
-            });
-        } catch (e) {
-            console.error('Error executing AG js rule with uniqueId "97deeafd5b9c8767a31890baf15c37ce" due to: ' + e);
         }
     },
     '(function(b,d,e){function a(){}b={get:function(){return a},set:a},d={};Object.defineProperties(d,{spid_control_callback:b,content_control_callback:b,vid_control_callback:b});e=new Proxy({},{get:function(a,c){switch(c){case "config":return d;case "_setSpKey":throw Error();default:return a[c]}},set:function(a,c,b){switch(c){case "config":return!0;case "bootstrap":case "mms":return a[c]=b,!0;default:throw Error();}}});Object.defineProperty(window,"_sp_",{get:function(){return e},set:a})})();': () => {
@@ -10683,6 +10758,55 @@ export const localScriptRules = {
             });
         } catch (e) {
             console.error('Error executing AG js rule with uniqueId "cf094940c140bb6a8015c9e1f15490f1" due to: ' + e);
+        }
+    },
+    '!function(){const e=e=>{const t=document.querySelector(".down-button");if(t&&t.textContent.includes("Continuar al enlace"))return;const o=new XMLHttpRequest;o.open("POST","/check.php",!0),o.setRequestHeader("Content-type","application/x-www-form-urlencoded"),o.send("a");const n=atob(window.ext_site).replace(/[a-z]/gi,(e=>String.fromCharCode(e.charCodeAt(0)+(e.toLowerCase()<="m"?13:-13))));let i=e.replaceAll(\'\\\\"\',\'"\');i=i.replace("\'+ api_key+ \'",window.api_key),i=i.replace("\'+ link_out+ \\"",window.link_out),i=i.replace(/action="\'\\+ .*?\\+ \'"/,`action="${n}"`);var a;const r=(a=i,(new DOMParser).parseFromString(a,"text/html")).querySelector("form"),c=new FormData(r),w=new XMLHttpRequest;w.open("POST",n,!0),w.send(c),window.tab2=window,postMessage("_clicked_b",location.origin)},t={apply:(t,o,n)=>{if(n[1]&&n[1].includes("api_key")){const t=window.link_out,o=window.api_key,i=n[1].match(/<form target=[\\s\\S]*?<\\/form>/)[0];if(n[1]=n[1].replace(/(setTimeout\\(function\\(\\)\\{)window\\[.\\[.\\]\\]\\[.\\[.*?\\]\\]= .*?(\\},3000)/,"$1$2"),n[1]=n[1].replace(/(window\\[).\\[\\d+\\](\\]\\(.\\(atob\\(main_site)/,\'$1"location"]["assign"$2\'),t&&o&&i)try{"loading"===document.readyState?window.addEventListener("load",(()=>{e(i)}),{once:!0}):e(i)}catch(e){console.debug(e)}}return Reflect.apply(t,o,n)}};window.Function.prototype.constructor=new Proxy(window.Function.prototype.constructor,t)}();': () => {
+        try {
+            const e = "done";
+            if (Window.prototype.toString.ca77be71e26513295ae5e7edf2a6fb1a === e) return;
+            !function() {
+                const e = e => {
+                    const t = document.querySelector(".down-button");
+                    if (t && t.textContent.includes("Continuar al enlace")) return;
+                    const o = new XMLHttpRequest;
+                    o.open("POST", "/check.php", !0), o.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
+                    o.send("a");
+                    const n = atob(window.ext_site).replace(/[a-z]/gi, (e => String.fromCharCode(e.charCodeAt(0) + (e.toLowerCase() <= "m" ? 13 : -13))));
+                    let r = e.replaceAll('\\"', '"');
+                    r = r.replace("'+ api_key+ '", window.api_key), r = r.replace("'+ link_out+ \"", window.link_out),
+                    r = r.replace(/action="'\+ .*?\+ '"/, `action="${n}"`);
+                    var a;
+                    const i = (a = r, (new DOMParser).parseFromString(a, "text/html")).querySelector("form"), c = new FormData(i), d = new XMLHttpRequest;
+                    d.open("POST", n, !0), d.send(c), window.tab2 = window, postMessage("_clicked_b", location.origin);
+                }, t = {
+                    apply: (t, o, n) => {
+                        if (n[1] && n[1].includes("api_key")) {
+                            const t = window.link_out, o = window.api_key, r = n[1].match(/<form target=[\s\S]*?<\/form>/)[0];
+                            if (n[1] = n[1].replace(/(setTimeout\(function\(\)\{)window\[.\[.\]\]\[.\[.*?\]\]= .*?(\},3000)/, "$1$2"),
+                            n[1] = n[1].replace(/(window\[).\[\d+\](\]\(.\(atob\(main_site)/, '$1"location"]["assign"$2'),
+                            t && o && r) try {
+                                "loading" === document.readyState ? window.addEventListener("load", (() => {
+                                    e(r);
+                                }), {
+                                    once: !0
+                                }) : e(r);
+                            } catch (e) {
+                                console.debug(e);
+                            }
+                        }
+                        return Reflect.apply(t, o, n);
+                    }
+                };
+                window.Function.prototype.constructor = new Proxy(window.Function.prototype.constructor, t);
+            }();
+            Object.defineProperty(Window.prototype.toString, "ca77be71e26513295ae5e7edf2a6fb1a", {
+                value: e,
+                enumerable: !1,
+                writable: !1,
+                configurable: !1
+            });
+        } catch (e) {
+            console.error('Error executing AG js rule with uniqueId "ca77be71e26513295ae5e7edf2a6fb1a" due to: ' + e);
         }
     },
     '!function(){const e=e=>{const o=new XMLHttpRequest;o.open("POST","/check.php",!0),o.setRequestHeader("Content-type","application/x-www-form-urlencoded"),o.send("a");const t=atob(window.ext_site).replace(/[a-z]/gi,(e=>String.fromCharCode(e.charCodeAt(0)+(e.toLowerCase()<="m"?13:-13))));let n=e.replaceAll(\'\\\\"\',\'"\');n=n.replace("\'+ api_key+ \'",window.api_key),n=n.replace("\'+ link_out+ \\"",window.link_out),n=n.replace(/action="\'\\+ .*?\\+ \'"/,`action="${t}"`);var a;const i=(a=n,(new DOMParser).parseFromString(a,"text/html")).querySelector("form"),r=new FormData(i),c=new XMLHttpRequest;c.open("POST",t,!0),c.send(r),window.tab2=window,postMessage("_clicked_b",location.origin)},o={apply:(o,t,n)=>{if(n[1]&&n[1].includes("api_key")){const o=window.link_out,t=window.api_key,a=n[1].match(/window\\.open\\(.*?\\(atob\\(main_site\\)\\).*?("\\/.*\\.php\\?.*=").*?("&.*?=").*?(api_key),"view"/),i=a[1].replaceAll(\'"\',""),r=a[2].replaceAll(\'"\',""),c=n[1].match(/<form target=[\\s\\S]*?<\\/form>/)[0];if(n[1]=n[1].replace("window.location.href","var nulled"),n[1]=n[1].replace("window.open(f","location.assign(f"),n[1]=n[1].replace(/(parseInt\\(c\\.split\\("-"\\)\\[0\\]\\)<= 0).*?(\\)\\{)/,"$1$2"),o&&t&&i&&r&&c)try{"loading"===document.readyState?window.addEventListener("load",(()=>{e(c)}),{once:!0}):e(c)}catch(e){console.debug(e)}}return Reflect.apply(o,t,n)}};window.Function.prototype.constructor=new Proxy(window.Function.prototype.constructor,o)}();': () => {
