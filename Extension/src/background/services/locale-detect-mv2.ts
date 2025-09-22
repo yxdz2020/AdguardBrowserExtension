@@ -218,7 +218,7 @@ class LocaleDetect {
         changeInfo: Tabs.OnUpdatedChangeInfoType,
         tab: Tabs.Tab,
     ): Promise<void> {
-        if (tab.status === 'complete' && !__IS_MV3__) {
+        if (tab.status === 'complete') {
             await this.detectTabLanguage(tab);
         }
     }
@@ -344,8 +344,7 @@ class LocaleDetect {
             return;
         }
 
-        const remote = !__IS_MV3__;
-        await FiltersApi.loadAndEnableFilters(disabledFiltersIds, remote);
+        await FiltersApi.loadAndEnableFilters(disabledFiltersIds, true);
         engine.debounceUpdate();
 
         const filters: RegularFilterMetadata[] = [];
