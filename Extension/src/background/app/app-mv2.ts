@@ -17,6 +17,8 @@
  */
 import browser from 'webextension-polyfill';
 import zod from 'zod';
+// @ts-ignore - MV2 only
+import { localeDetect } from 'locale-detect';
 
 import { engine } from '../engine';
 import { MessageType, sendMessage } from '../../common/messages';
@@ -59,7 +61,6 @@ import {
     FilteringLogService,
     eventService,
     DocumentBlockService,
-    localeDetect,
     PromoNotificationService,
     filterUpdateService,
 } from '../services';

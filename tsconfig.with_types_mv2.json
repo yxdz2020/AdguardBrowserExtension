@@ -22,6 +22,8 @@
             "filter-categories-api": ["./Extension/src/background/api/filters/categories/categories-mv2.ts"],
             "settings-api": ["./Extension/src/background/api/settings/settings-mv2.ts"],
             "filter-update-service": ["./Extension/src/background/services/filter-update/filter-update-mv2.ts"],
+            "locale-detect": ["./Extension/src/background/services/locale-detect-mv2.ts"],
         }
     }
 }
+

@@ -39,6 +39,8 @@ type BrowsingLanguage = {
 
 /**
  * This service is used to auto-enable language-specific filters.
+ *
+ * @note This service is only used in Manifest V2 extensions.
  */
 class LocaleDetect {
     static SUCCESS_HIT_COUNT = 3;
