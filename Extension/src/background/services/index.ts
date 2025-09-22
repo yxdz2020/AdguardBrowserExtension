@@ -31,6 +31,7 @@ export {
     PromoNotificationService,
 } from './ui';
 export { FiltersService } from './filters';
+export { localeDetect } from './locale-detect-mv2';
 export { DocumentBlockService } from './document-block';
 export { FilterUpdateService, filterUpdateService } from './filter-update';
 // Do not export SafebrowsingService here, because it will break MV3 build

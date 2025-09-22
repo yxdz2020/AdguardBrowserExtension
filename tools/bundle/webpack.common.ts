@@ -345,13 +345,6 @@ export const genCommonConfig = (browserConfig: BrowserConfig, isWatchMode = fals
                     __dirname,
                     `../../Extension/src/background/services/filter-update/filter-update-mv${manifestVersion}.ts`,
                 ),
-                ...(browserConfig.browser !== Browser.ChromeMv3 ? {
-                    'locale-detect': path.resolve(
-                        __dirname,
-                        '../../Extension/src/background/services/locale-detect-mv2.ts',
-                    ),
-                } : {}),
-
             },
         },
         module: {
