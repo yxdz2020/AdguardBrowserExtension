@@ -59,9 +59,9 @@ import {
     FilteringLogService,
     eventService,
     DocumentBlockService,
-    localeDetect,
     PromoNotificationService,
     filterUpdateService,
+    localeDetect,
 } from '../services';
 import { SettingOption } from '../schema';
 import { getRunInfo } from '../utils';
