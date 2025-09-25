@@ -353,6 +353,10 @@ export const genCommonConfig = (browserConfig: BrowserConfig, isWatchMode = fals
                     __dirname,
                     `../../Extension/src/background/api/ui/icons/icons-mv${manifestVersion}.ts`,
                 ),
+                'userrules': path.resolve(
+                    __dirname,
+                    `../../Extension/src/background/services/userrules/userrules-mv${manifestVersion}.ts`,
+                ),
             },
         },
         module: {
