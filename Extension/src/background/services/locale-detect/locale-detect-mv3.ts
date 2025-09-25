@@ -21,7 +21,9 @@ import { type LocaleDetectCommon } from './locale-detect-common';
 /**
  * Locale detection service for Manifest V3.
  *
- * Empty stub - functionality disabled due to MV3 API limitations.
+ * Empty stub - functionality disabled in MV3. Enabling filters based on
+ * detected locale would require checking declarative rules limits, adding
+ * significant complexity. For simplicity, this feature is not implemented.
  */
 class LocaleDetect implements LocaleDetectCommon {
     /**

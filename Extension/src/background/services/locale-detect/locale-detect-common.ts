@@ -17,9 +17,10 @@
  */
 
 /**
- * Locale detection service for Manifest V3.
+ * Common interface for locale detection service.
  *
- * Empty stub - functionality disabled due to MV3 API limitations.
+ * Automatically detects user's locale and enables appropriate language-specific
+ * filters to improve ad blocking effectiveness for regional content.
  */
 export interface LocaleDetectCommon {
     /**
