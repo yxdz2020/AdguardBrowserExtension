@@ -16,8 +16,6 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// it is okay to import directly from `@adguard/tswebextension/mv3` without using manifest-dependant alias,
-// because checkUserRulesRegexpErrors use only in engine-mv3
 import { type ConfigurationResult, UnsupportedRegexpError } from '@adguard/tswebextension/mv3';
 import { RuleGenerator } from '@adguard/agtree/generator';
 
